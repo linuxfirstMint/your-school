@@ -1,0 +1,39 @@
+erDiagram
+    teachers ||--o{ main_subjects : "specialized"
+    classes }o--|| teachers : "teachers_id"
+    classes }o--|| students : "students_id"
+
+    teachers {
+        int id PK "担任・専科"
+        string name "名前"
+        string classroom "担当クラス"
+        string specialized "専科 → main_subjects.name"
+    }
+
+     
+    classes {
+        int id PK 
+        string grade "学年"
+        string class "組"
+    %% TODO このままだとクラスに先生、生徒が1ずつしか紐づかないかも
+        int teachers_id FK "先生"
+        int students_id FK "生徒"
+    }
+
+    students {
+        int id PK "在籍番号"
+    %% TODO プロトタイプ仕様書にある、year,class,numberが抜けている
+        string name "氏名"
+    }
+
+    main_subjects {
+        int id PK "科目番号"
+        string name "(国語, 数学...)"
+    }
+
+    exams {
+        int id PK
+        string quarter "中間・期末"
+        string period "前期・後期"
+    }
+
