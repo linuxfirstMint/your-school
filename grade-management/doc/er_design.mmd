@@ -1,29 +1,33 @@
 erDiagram
     teachers ||--o{ main_subjects : "specialized"
-    classes }o--|| teachers : "teachers_id"
-    classes }o--|| students : "students_id"
+    classes ||--o{ students : "class_id"
+    classes ||--o| teachers : "class_id"
+    grades }o--|| students: "students_id"
+    exams ||--o{ grades : "exam_id"
+
+%% ||--o{ : 「1対多」
+%% || (左側) : 1側。片側が必ず1つであることを示します（必須）。
+%% o{ (右側) : 多側。0個以上（Zero or Many）であることを示します。
+%% ||--|{ : 1対多かつ、「多側」が1つ以上（One or Many）。 
 
     teachers {
         int id PK "担任・専科"
         string name "名前"
-        string classroom "担当クラス"
-        string specialized "専科 → main_subjects.name"
+        string specialized "専科"
+        int class_id FK "担当クラス"
     }
 
      
     classes {
         int id PK 
         string grade "学年"
-        string class "組"
-    %% TODO このままだとクラスに先生、生徒が1ずつしか紐づかないかも
-        int teachers_id FK "先生"
-        int students_id FK "生徒"
+        string class_name "組"
     }
 
     students {
-        int id PK "在籍番号"
-    %% TODO プロトタイプ仕様書にある、year,class,numberが抜けている
+        int id PK "学生番号"
         string name "氏名"
+        int class_id FK "在籍クラス"
     }
 
     main_subjects {
@@ -31,9 +35,17 @@ erDiagram
         string name "(国語, 数学...)"
     }
 
+
     exams {
         int id PK
         string quarter "中間・期末"
         string period "前期・後期"
     }
 
+    grades {
+        int id PK
+        int students_id FK 
+        int exam_id FK "前期中間、後期期末、、、"
+        int main_subjects_id FK
+        int score 
+    }
