@@ -16,7 +16,7 @@ erDiagram
     teachers {
         int id PK "担任・専科"
         string name "名前"
-        string specialized "専科"
+        string specialized "専科。専科の先生がいない場合もあるのでNUll許容"
         int class_id FK "担当クラス"
     }
 
