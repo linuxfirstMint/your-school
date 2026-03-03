@@ -18,6 +18,8 @@ erDiagram
         string name "名前"
         string specialized "専科。専科の先生がいない場合もあるのでNUll許容"
         int class_id FK "担当クラス"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
 
      
@@ -25,12 +27,16 @@ erDiagram
         int id PK 
         string grade "学年"
         string class_name "組"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
 
     students {
         int id PK "学生番号"
         string name "氏名"
         int class_id FK "在籍クラス"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
 
     exams {
@@ -42,5 +48,7 @@ erDiagram
         int sugaku "数学"
         int rika "理科"
         int syakai "社会"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
     
