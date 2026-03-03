@@ -1,9 +1,7 @@
 erDiagram
-    teachers ||--o{ main_subjects : "specialized"
     classes ||--o{ students : "class_id"
     classes ||--o| teachers : "class_id"
-    grades }o--|| students: "students_id"
-    exams ||--o{ grades : "exam_id"
+    students ||--o{ exams : "student_id"
 
 %% ||--o{ : 「1対多」
 %% || (左側) : 1側。片側が必ず1つであることを示します（必須）。
@@ -30,22 +28,9 @@ erDiagram
         int class_id FK "在籍クラス"
     }
 
-    main_subjects {
-        int id PK "科目番号"
-        string name "(国語, 数学...)"
-    }
-
-
     exams {
-        int id PK
+        int id PK 
         string quarter "中間・期末"
         string period "前期・後期"
     }
-
-    grades {
-        int id PK
-        int students_id FK 
-        int exam_id FK "前期中間、後期期末、、、"
-        int main_subjects_id FK
-        int score 
-    }
+    
