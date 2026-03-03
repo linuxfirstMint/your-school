@@ -1,11 +1,6 @@
 erDiagram
     classes ||--o{ students : "class_id"
     classes ||--o| teachers : "class_id"
-<<<<<<< HEAD
-=======
-    grades }o--|| students: "students_id"
-    exams ||--o{ grades : "exam_id"
->>>>>>> d27cd80 (doc: 1人の生徒に複数の成績(前期中間、後期期末)が紐づくように変更)
     students ||--o{ exams : "student_id"
 
 %% ||--o{ : 「1対多」
