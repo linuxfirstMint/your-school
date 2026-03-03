@@ -1,9 +1,7 @@
 erDiagram
-    teachers ||--o{ main_subjects : "specialized"
     classes ||--o{ students : "class_id"
     classes ||--o| teachers : "class_id"
-    grades }o--|| students: "students_id"
-    exams ||--o{ grades : "exam_id"
+    students ||--o{ exams : "student_id"
 
 %% ||--o{ : 「1対多」
 %% || (左側) : 1側。片側が必ず1つであることを示します（必須）。
@@ -13,8 +11,10 @@ erDiagram
     teachers {
         int id PK "担任・専科"
         string name "名前"
-        string specialized "専科"
+        string specialized "専科。専科の先生がいない場合もあるのでNUll許容"
         int class_id FK "担当クラス"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
 
      
@@ -22,30 +22,29 @@ erDiagram
         int id PK 
         string grade "学年"
         string class_name "組"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
 
     students {
         int id PK "学生番号"
         string name "氏名"
         int class_id FK "在籍クラス"
-    }
-
-    main_subjects {
-        int id PK "科目番号"
-        string name "(国語, 数学...)"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
 
 
     exams {
-        int id PK
+        int id PK 
         string quarter "中間・期末"
         string period "前期・後期"
+        int student_id FK "生徒"
+        int kokugo "国語"
+        int sugaku "数学"
+        int rika "理科"
+        int syakai "社会"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
     }
-
-    grades {
-        int id PK
-        int students_id FK 
-        int exam_id FK "前期中間、後期期末、、、"
-        int main_subjects_id FK
-        int score 
-    }
+    
