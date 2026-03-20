@@ -15,15 +15,14 @@ services:
     networks:
       - grade-management-network
 
-  # 2. バックエンド API (PHP + Apache)
-  api:
-    build: ./api
-    container_name: grade-management-api
+  # 2. Web (PHP + Apache) ── HTML/CSS/JS と API を一括で配信
+  web:
+    build: ./web
+    container_name: grade-management-web
     ports:
-      - "${API_PORT}:80"
+      - "${WEB_PORT}:80"
     volumes:
-      - ./api/src:/var/www/html
-    # コンテナ内のPHPから環境変数として参照できるようにする
+      - ./web/src:/var/www/html
     environment:
       DB_HOST: db
       DB_NAME: ${DB_NAME}
@@ -31,17 +30,6 @@ services:
       DB_PASS: ${DB_PASSWORD}
     depends_on:
       - db
-    networks:
-      - grade-management-network
-
-  # 3. フロントエンド (Nginx)
-  frontend:
-    image: nginx:1.25.4-alpine
-    container_name: grade-management-frontend
-    ports:
-      - "${FRONTEND_PORT}:80"
-    volumes:
-      - ./frontend/src:/usr/share/nginx/html
     networks:
       - grade-management-network
 
