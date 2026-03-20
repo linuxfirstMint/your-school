@@ -9,6 +9,7 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    command: --character-set-server=${DB_CHARSET} --collation-server=${DB_COLLATION} --skip-character-set-client-handshake
     volumes:
       - ./volumes/mysql_data:/var/lib/mysql
       - ./db/init:/docker-entrypoint-initdb.d
