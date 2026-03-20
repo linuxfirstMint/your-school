@@ -4,3 +4,6 @@
 # MySQLの実データは無視
 /volumes/mysql_data/*
 !/volumes/mysql_data/.gitkeep
+
+# Composer の依存パッケージ
+web/src/vendor/
