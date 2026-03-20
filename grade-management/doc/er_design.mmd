@@ -1,25 +1,14 @@
 erDiagram
     classes ||--o{ students : "class_id"
-    classes ||--o| teachers : "class_id"
     students ||--o{ exams : "student_id"
+    tests ||--o{ exams : "test_id"
 
 %% ||--o{ : 「1対多」
 %% || (左側) : 1側。片側が必ず1つであることを示します（必須）。
 %% o{ (右側) : 多側。0個以上（Zero or Many）であることを示します。
-%% ||--|{ : 1対多かつ、「多側」が1つ以上（One or Many）。 
 
-    teachers {
-        int id PK "担任・専科"
-        string name "名前"
-        string specialized "専科。専科の先生がいない場合もあるのでNUll許容"
-        int class_id FK "担当クラス"
-        timestamp created_at "作成日時"
-        timestamp updated_at "更新日時"
-    }
-
-     
     classes {
-        int id PK 
+        int id PK
         string grade "学年"
         string class_name "組"
         timestamp created_at "作成日時"
@@ -27,24 +16,32 @@ erDiagram
     }
 
     students {
-        int id PK "学生番号"
-        string name "氏名"
+        int id PK
         int class_id FK "在籍クラス"
+        int number "学生番号"
+        string name "氏名"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
 
+    tests {
+        int id PK
+        int year "学年"
+        string name "テスト名（前期中間テスト等）"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
+    }
 
     exams {
-        int id PK 
-        string quarter "中間・期末"
-        string period "前期・後期"
+        int id PK
+        int test_id FK "テスト"
         int student_id FK "生徒"
         int kokugo "国語"
         int sugaku "数学"
+        int eigo "英語"
         int rika "理科"
-        int syakai "社会"
+        int shakai "社会"
+        int goukei "合計"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
-    
