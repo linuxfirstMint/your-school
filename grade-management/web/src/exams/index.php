@@ -11,6 +11,7 @@ $selectedTestId = isset($_GET['test_id']) ? (int) $_GET['test_id'] : 0;
 
 // 許可するソートキーと対応する ORDER BY 句
 $sortMap = [
+    'class'   => 'c.grade ASC, c.class_name ASC, s.number ASC',
     'number'  => 's.number ASC',
     'name'    => 's.name ASC',
     'kokugo'  => 'e.kokugo DESC',
@@ -84,7 +85,7 @@ function sortLink(string $key, string $label, string $currentSort, int $testId):
   <table border="1" cellpadding="6" style="margin-top:1em;border-collapse:collapse;">
     <thead>
       <tr>
-        <th>クラス</th>
+        <th><?= sortLink('class',  'クラス',   $sortKey, $selectedTestId) ?></th>
         <th><?= sortLink('number', '出席番号', $sortKey, $selectedTestId) ?></th>
         <th><?= sortLink('name',   '氏名',     $sortKey, $selectedTestId) ?></th>
         <th><?= sortLink('kokugo', '国語',     $sortKey, $selectedTestId) ?></th>
