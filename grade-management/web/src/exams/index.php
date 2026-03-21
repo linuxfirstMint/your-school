@@ -11,8 +11,9 @@ $selectedTestId = isset($_GET['test_id']) ? (int) $_GET['test_id'] : 0;
 
 // 許可するソートキーと対応する ORDER BY 句
 $sortMap = [
-    'class'   => 'c.grade ASC, c.class_name ASC, s.number ASC',
-    'number'  => 's.number ASC',
+    'student_id' => 'e.student_id ASC',
+    'class'      => 'c.grade ASC, c.class_name ASC, s.number ASC',
+    'number'     => 's.number ASC',
     'name'    => 's.name ASC',
     'kokugo'  => 'e.kokugo DESC',
     'sugaku'  => 'e.sugaku DESC',
@@ -85,6 +86,7 @@ function sortLink(string $key, string $label, string $currentSort, int $testId):
   <table border="1" cellpadding="6" style="margin-top:1em;border-collapse:collapse;">
     <thead>
       <tr>
+        <th><?= sortLink('student_id', '学生番号', $sortKey, $selectedTestId) ?></th>
         <th><?= sortLink('class',  'クラス',   $sortKey, $selectedTestId) ?></th>
         <th><?= sortLink('number', '出席番号', $sortKey, $selectedTestId) ?></th>
         <th><?= sortLink('name',   '氏名',     $sortKey, $selectedTestId) ?></th>
@@ -100,6 +102,7 @@ function sortLink(string $key, string $label, string $currentSort, int $testId):
     <tbody>
       <?php foreach ($exams as $exam): ?>
       <tr>
+        <td><?= htmlspecialchars($exam['student_id']) ?></td>
         <td><?= htmlspecialchars($exam['grade'] . $exam['class_name']) ?></td>
         <td><?= htmlspecialchars($exam['student_number']) ?></td>
         <td><?= htmlspecialchars($exam['student_name']) ?></td>
