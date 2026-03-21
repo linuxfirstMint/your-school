@@ -21,7 +21,7 @@ $sortMap = [
     'shakai'  => 'e.shakai DESC',
     'goukei'  => 'e.goukei DESC',
 ];
-$sortKey = $_GET['sort'] ?? 'number';
+$sortKey = $_GET['sort'] ?? 'class';
 if (!array_key_exists($sortKey, $sortMap)) {
     $sortKey = 'number';
 }
