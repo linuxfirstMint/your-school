@@ -7,3 +7,6 @@
 
 # Composer の依存パッケージ
 web/src/vendor/
+
+# PHPUnit キャッシュ
+web/src/.phpunit.result.cache
