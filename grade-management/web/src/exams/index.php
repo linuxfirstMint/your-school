@@ -2,16 +2,26 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Database;
-use App\ExamRepository;
 
 $db = Database::getConnection();
 
 $tests = $db->query('SELECT * FROM tests ORDER BY year, id')->fetchAll(PDO::FETCH_ASSOC);
 
 $selectedTestId = isset($_GET['test_id']) ? (int) $_GET['test_id'] : 0;
+
+// 許可するソートキーと対応する ORDER BY 句
+$sortMap = [
+    'number'  => 's.number ASC',
+    'name'    => 's.name ASC',
+    'kokugo'  => 'e.kokugo DESC',
+    'sugaku'  => 'e.sugaku DESC',
+    'eigo'    => 'e.eigo DESC',
+    'rika'    => 'e.rika DESC',
+    'shakai'  => 'e.shakai DESC',
+    'goukei'  => 'e.goukei DESC',
+];
 $sortKey = $_GET['sort'] ?? 'number';
-$allowedSorts = ['number', 'goukei'];
-if (!in_array($sortKey, $allowedSorts, true)) {
+if (!array_key_exists($sortKey, $sortMap)) {
     $sortKey = 'number';
 }
 
@@ -24,7 +34,7 @@ if ($selectedTestId > 0) {
          JOIN students s ON s.id = e.student_id
          JOIN classes c ON c.id = s.class_id
          WHERE e.test_id = :test_id
-         ORDER BY ' . ($sortKey === 'goukei' ? 'e.goukei DESC' : 's.number ASC')
+         ORDER BY ' . $sortMap[$sortKey]
     );
     $stmt->execute([':test_id' => $selectedTestId]);
     $exams = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,6 +42,15 @@ if ($selectedTestId > 0) {
     $stmt2 = $db->prepare('SELECT * FROM tests WHERE id = :id');
     $stmt2->execute([':id' => $selectedTestId]);
     $selectedTest = $stmt2->fetch(PDO::FETCH_ASSOC);
+}
+
+// ソートリンクを生成するヘルパー
+function sortLink(string $key, string $label, string $currentSort, int $testId): string
+{
+    $indicator = $currentSort === $key ? '▲' : '▽';
+    $style = $currentSort === $key ? 'font-weight:bold;' : '';
+    $url = '?test_id=' . $testId . '&sort=' . $key;
+    return "<a href=\"{$url}\" style=\"{$style}text-decoration:none;color:inherit;\">{$label} {$indicator}</a>";
 }
 ?>
 <!DOCTYPE html>
@@ -60,20 +79,20 @@ if ($selectedTestId > 0) {
   <?php if ($selectedTest): ?>
   <h2><?= htmlspecialchars($selectedTest['year'] . '年度 ' . $selectedTest['name']) ?></h2>
 
-  <p>
-    並び替え：
-    <a href="?test_id=<?= $selectedTestId ?>&sort=number">出席番号順</a>
-    ｜
-    <a href="?test_id=<?= $selectedTestId ?>&sort=goukei">合計点順</a>
-  </p>
-
   <a href="/exams/create.php?test_id=<?= $selectedTestId ?>">＋ このテストの成績を一括登録</a>
 
   <table border="1" cellpadding="6" style="margin-top:1em;border-collapse:collapse;">
     <thead>
       <tr>
-        <th>クラス</th><th>出席番号</th><th>氏名</th>
-        <th>国語</th><th>数学</th><th>英語</th><th>理科</th><th>社会</th><th>合計</th>
+        <th>クラス</th>
+        <th><?= sortLink('number', '出席番号', $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('name',   '氏名',     $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('kokugo', '国語',     $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('sugaku', '数学',     $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('eigo',   '英語',     $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('rika',   '理科',     $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('shakai', '社会',     $sortKey, $selectedTestId) ?></th>
+        <th><?= sortLink('goukei', '合計',     $sortKey, $selectedTestId) ?></th>
         <th>操作</th>
       </tr>
     </thead>
