@@ -20,6 +20,11 @@ $classMap = array_column($classes, null, 'id');
 </head>
 <body>
   <h1>生徒一覧</h1>
+
+  <?php if (($_GET['notice'] ?? '') === 'no_students'): ?>
+  <p style="color:red;">選択したクラスに生徒が登録されていません。先に生徒を登録してください。</p>
+  <?php endif; ?>
+
   <a href="/students/create.php">＋ 生徒を登録</a>
   <table border="1" cellpadding="6" style="margin-top:1em;border-collapse:collapse;">
     <thead>

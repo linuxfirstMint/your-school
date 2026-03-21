@@ -25,6 +25,11 @@ $stmt2 = $db->prepare('SELECT student_id FROM exams WHERE test_id = :test_id');
 $stmt2->execute([':test_id' => $testId]);
 $existing = array_column($stmt2->fetchAll(PDO::FETCH_ASSOC), 'student_id');
 
+if (empty($students)) {
+    header('Location: /students/index.php?notice=no_students');
+    exit;
+}
+
 foreach ($students as $student) {
     if (!in_array($student['id'], $existing, false)) {
         $repo->create($testId, (int) $student['id']);

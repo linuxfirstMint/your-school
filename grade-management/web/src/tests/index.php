@@ -28,6 +28,7 @@ $tests = $repo->findAll();
         <td><?= htmlspecialchars($test['year']) ?></td>
         <td><?= htmlspecialchars($test['name']) ?></td>
         <td>
+          <a href="/exams/index.php?test_id=<?= $test['id'] ?>">成績を見る</a>
           <a href="/tests/edit.php?id=<?= $test['id'] ?>">編集</a>
           <a href="/tests/delete.php?id=<?= $test['id'] ?>">削除</a>
         </td>
