@@ -9,8 +9,9 @@
 <body>
   <h1>成績管理アプリ</h1>
   <ul>
-    <li><a href="/tests/index.php">テスト管理</a></li>
+    <li><a href="/classrooms/index.php">クラス管理</a></li>
     <li><a href="/students/index.php">生徒管理</a></li>
+    <li><a href="/tests/index.php">テスト管理</a></li>
     <li><a href="/exams/index.php">成績管理</a></li>
   </ul>
 </body>

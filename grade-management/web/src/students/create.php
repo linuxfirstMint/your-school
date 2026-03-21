@@ -5,6 +5,11 @@ use App\Database;
 
 $db = Database::getConnection();
 $classes = $db->query('SELECT id, grade, class_name FROM classes ORDER BY id')->fetchAll(PDO::FETCH_ASSOC);
+
+if (empty($classes)) {
+    header('Location: /classrooms/index.php?notice=no_classes');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">

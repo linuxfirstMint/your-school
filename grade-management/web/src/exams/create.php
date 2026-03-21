@@ -7,6 +7,15 @@ $db = Database::getConnection();
 $tests   = $db->query('SELECT * FROM tests ORDER BY year, id')->fetchAll(PDO::FETCH_ASSOC);
 $classes = $db->query('SELECT * FROM classes ORDER BY id')->fetchAll(PDO::FETCH_ASSOC);
 
+if (empty($classes)) {
+    header('Location: /classrooms/index.php?notice=no_classes');
+    exit;
+}
+if (empty($tests)) {
+    header('Location: /tests/index.php');
+    exit;
+}
+
 $selectedTestId = isset($_GET['test_id']) ? (int) $_GET['test_id'] : 0;
 ?>
 <!DOCTYPE html>
