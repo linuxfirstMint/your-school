@@ -88,6 +88,8 @@ function sortLink(string $key, string $label, string $currentSort, int $testId):
 
     <a href="/exams/create.php?test_id=<?= $selectedTestId ?>">＋ このテストの成績を一括登録</a>
 
+    <a href="/exams/download.php?test_id=<?= $selectedTestId ?>&sort=<?= htmlspecialchars($sortKey) ?>">↓ CSVダウンロード</a>
+
     <table border="1" cellpadding="6" style="margin-top:1em;border-collapse:collapse;">
       <thead>
         <tr>
