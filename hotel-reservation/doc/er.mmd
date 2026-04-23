@@ -1,0 +1,113 @@
+erDiagram
+
+    %% 予約枠の内、一つが予約として確定する
+    %% 空き枠には予約がまだ入っていない状態もあるから、0または1
+    reservation_slots ||--o| reservations: "" 
+    
+    %% 複数の予約が1つのプランに紐づく
+    reservations }o--|| accommodation_plans: ""
+
+    %% 1つの部屋タイプは複数の予約枠を持つ（日付ごとに枠が存在する）
+    room_types ||--o{ reservation_slots: ""
+    
+    %% プラン×部屋タイプで金額が決まる
+    accommodation_plans ||--o{ plan_room_prices: ""
+    room_types ||--o{ plan_room_prices: ""
+
+    %%一つのプランは複数の画像を持つ
+    accommodation_plans ||--o{ plan_images: ""
+
+%% ||--o{ : 「1対多」
+%% || (左側) : 1側。片側が必ず1つであることを示します（必須）。
+%% o{ (右側) : 多側。0個以上（Zero or Many）であることを示します。
+
+
+    %%予約
+    reservations {
+        int id
+        int reservation_slot_id
+        int accommodation_plan_id
+        string last_name
+        string first_name
+        string email
+        string address
+        string phone
+        string message
+        string status
+        string memo
+        datetime created_at
+        datetime updated_at
+    }
+
+    %%予約枠
+    reservation_slots {
+        int id
+        int room_type_id
+        int status
+        datetime start
+        datetime end
+        datetime created_at
+    }
+    
+    %%宿泊プラン
+    accommodation_plans {
+        int id
+        string name
+        string description
+        datetime created_at
+    }
+
+    %%宿泊プランイメージ
+    plan_images {
+        int id
+        int accommodation_plan_id
+        string name
+        string image_path
+        datetime created_at
+    }
+
+    %%部屋
+    room_types{
+        int id
+        string name
+        int count
+        datetime created_at
+        datetime updated_at
+    }
+    
+    %%プラン×部屋タイプによる金額
+    plan_room_prices{
+        int id
+        int room_type_id
+        int accommodation_plan_id
+        int price
+        datetime created_at
+        datetime updated_at
+    }
+
+    %%問い合わせ
+    inquiries {
+        int id
+        string last_name
+        string first_name
+        string email
+        string address
+        string phone
+        string message
+        string status
+        datetime created_at
+    }
+
+    %%管理者
+    admins {
+        int id
+        string last_name
+        string first_name
+        string email
+        string password
+        datetime created_at
+        datetime updated_at
+    }
+
+
+    
