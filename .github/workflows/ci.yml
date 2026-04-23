@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [dev/hotel-reservation, main]
+  pull_request:
+    branches: [dev/hotel-reservation, main]
+
+jobs:
+  lint-and-analyse:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hotel-reservation/src
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: PHP CS Fixer
+        run: php vendor/bin/php-cs-fixer fix --dry-run --diff
+
+      - name: PHPStan
+        run: php vendor/bin/phpstan analyse
