@@ -1,0 +1,25 @@
+{
+    "commit-msg": {
+        "enabled": false,
+        "actions": []
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
+                "options": [],
+                "conditions": []
+            },
+            {
+                "action": "php vendor/bin/phpstan analyse",
+                "options": [],
+                "conditions": []
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": false,
+        "actions": []
+    }
+}
