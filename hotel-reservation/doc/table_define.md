@@ -19,8 +19,8 @@
 | カラム名 | 型 | NULL | デフォルト | 備考 |
 |---------|---|------|-----------|------|
 | id | BIGINT UNSIGNED | NO | AUTO_INCREMENT | PK |
-| reservation_slot_id | BIGINT UNSIGNED | NO | - | FK |
-| accommodation_plan_id | BIGINT UNSIGNED | NO | - | FK |
+| reservation_slot_id | BIGINT UNSIGNED | NO | - | FK, INDEX |
+| accommodation_plan_id | BIGINT UNSIGNED | NO | - | FK, INDEX |
 | plan_name | VARCHAR(255) | NO | - |予約時点のプラン|
 | price | INT UNSIGNED | NO | - |予約時点の料金|
 | last_name | VARCHAR(255) | NO | - ||  
@@ -39,12 +39,14 @@
 | カラム名 | 型 | NULL | デフォルト | 備考 |
 |---------|---|------|-----------|------|
 | id | BIGINT UNSIGNED | NO | AUTO_INCREMENT | PK |
-| room_type_id | BIGINT UNSIGNED | NO | - | FK |
+| room_type_id | BIGINT UNSIGNED | NO | - | FK, INDEX |
 | status | TINYINT | NO | 1 | 1:埋まっていない 2:埋まっている |
 | start | DATE | NO | - |チェックイン|
 | end | DATE | NO | - |チェックアウト|
 | created_at | DATETIME | NO | - ||  
 | updated_at | DATETIME | YES | NULL ||  
+
+複合インデックス：`(status, start, end)` ※空室検索で status・日付範囲を同時に絞るため
 
 
 ## accommodation_plans(宿泊プラン)
@@ -61,7 +63,7 @@
 | カラム名 | 型 | NULL | デフォルト | 備考 |
 |---------|---|------|-----------|------|
 | id | BIGINT UNSIGNED | NO | AUTO_INCREMENT | PK |
-| accommodation_plan_id | BIGINT UNSIGNED | NO | - | FK |
+| accommodation_plan_id | BIGINT UNSIGNED | NO | - | FK, INDEX |
 | name | VARCHAR(255) | NO | - ||  
 | image_path | VARCHAR(255) | NO | - ||  
 | created_at | DATETIME | NO | - ||  
@@ -80,8 +82,8 @@
 | カラム名 | 型 | NULL | デフォルト | 備考 |
 |---------|---|------|-----------|------|
 | id | BIGINT UNSIGNED | NO | AUTO_INCREMENT | PK |
-| room_type_id | BIGINT UNSIGNED | NO | - | FK |
-| accommodation_plan_id | BIGINT UNSIGNED | NO | - | FK |
+| room_type_id | BIGINT UNSIGNED | NO | - | FK, INDEX |
+| accommodation_plan_id | BIGINT UNSIGNED | NO | - | FK, INDEX |
 | price | INT UNSIGNED | NO | - ||  
 | created_at | DATETIME | NO | - ||  
 | updated_at | DATETIME | YES | NULL ||  
