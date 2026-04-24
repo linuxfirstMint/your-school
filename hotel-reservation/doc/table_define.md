@@ -27,7 +27,7 @@
 | first_name | VARCHAR(255) | NO | - ||  
 | email | VARCHAR(255) | NO | - ||  
 | address | VARCHAR(255) | NO | - ||  
-| phone | VARCHAR(255) | NO | - ||  
+| phone | VARCHAR(20) | NO | - ||  
 | message | TEXT | YES | NULL ||  
 | status | TINYINT | NO | 1 | 1:予約済 2:キャンセル |
 | memo | TEXT | YES | NULL ||  
@@ -94,7 +94,7 @@
 | first_name | VARCHAR(255) | NO | - ||  
 | email | VARCHAR(255) | NO | - ||  
 | address | VARCHAR(255) | NO | - ||  
-| phone | VARCHAR(255) | NO | - ||  
+| phone | VARCHAR(20) | NO | - ||  
 | message | TEXT | YES | NULL ||  
 | status | TINYINT | NO | 1 | 1:問い合わせ中 2:完了 |
 | created_at | DATETIME | NO | - ||  
@@ -106,7 +106,7 @@
 | id | BIGINT UNSIGNED | NO | AUTO_INCREMENT | PK |
 | last_name | VARCHAR(255) | NO | - ||  
 | first_name | VARCHAR(255) | NO | - ||  
-| email | VARCHAR(255) | NO | - ||  
+| email | VARCHAR(255) | NO | - | UNIQUE |  
 | password | VARCHAR(255) | NO | - ||  
 | created_at | DATETIME | NO | - ||  
 | updated_at | DATETIME | YES | NULL ||    
