@@ -16,13 +16,14 @@ your-school/
 │   ├── doc/                  # 設計ドキュメント（ER図・画面遷移図・テーブル定義書）
 │   ├── specification.md      # 仕様書
 │   └── src/                  # Laravelアプリ本体
+├── grade-management/         # 別課題（成績管理システム）
 ├── .github/workflows/ci.yml  # GitHub Actions CI
 └── README.md
 ```
 
 ## 技術スタック（hotel-reservation）
 
-- **PHP 8.5** / **Laravel 13**
+- **PHP ^8.3**（実行環境: 8.5）/ **Laravel 13**
 - **MySQL 8.4**
 - **Laravel Sail**（Docker ベース開発環境）
 - **Larastan** level 6（静的解析）
@@ -96,5 +97,4 @@ main                        # 課題完成後にのみマージ
 
 ## 現在の作業状況
 
-- **完了**: 環境構築、Larastan、PHP CS Fixer、CaptainHook、GitHub Actions CI、Xdebug、Laravel Debugbar
-- **検討中**: Issue #42 — テスト環境の整備（SQLite in-memory vs MySQL testing DB、ユーザーが方針を決定中）
+- **完了**: 環境構築、Larastan、PHP CS Fixer、CaptainHook、GitHub Actions CI、テスト環境整備、Xdebug、Laravel Debugbar
