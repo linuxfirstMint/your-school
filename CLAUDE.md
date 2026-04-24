@@ -12,6 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 your-school/
 ├── hotel-reservation/
+│   ├── .vscode/launch.json   # VSCode xdebug設定（hotel-reservationをワークスペースルートとして開くこと）
 │   ├── doc/                  # 設計ドキュメント（ER図・画面遷移図・テーブル定義書）
 │   ├── specification.md      # 仕様書
 │   └── src/                  # Laravelアプリ本体
@@ -28,6 +29,8 @@ your-school/
 - **PHP CS Fixer** PSR-12（フォーマット）
 - **CaptainHook**（pre-commit フック）
 - **PHPUnit 12**（テスト）
+- **Xdebug 3**（ステップデバッグ）
+- **Laravel Debugbar**（ブラウザ内デバッグツールバー）
 
 ## 開発環境の特殊事情
 
@@ -82,7 +85,16 @@ main                        # 課題完成後にのみマージ
 - Larastan level 6 をパスすること
 - コミット前に pre-commit フックが自動で両方を実行する
 
+## Xdebug 使い方
+
+1. VSCode のデバッグパネルで「Listen for Xdebug (Sail)」を選択して F5
+2. ブラウザの Xdebug Helper 拡張を **Debug** モードに切り替える
+3. `http://localhost:8888` にアクセス → ブレークポイントで停止
+
+- `start_with_request=default` のため、Xdebug Helper なしの場合は `?XDEBUG_SESSION=1` クエリパラメータが必要
+- `.env` の `SAIL_XDEBUG_MODE=develop,debug` で有効化済み
+
 ## 現在の作業状況
 
-- **完了**: 環境構築、Larastan、PHP CS Fixer、CaptainHook、GitHub Actions CI
+- **完了**: 環境構築、Larastan、PHP CS Fixer、CaptainHook、GitHub Actions CI、Xdebug、Laravel Debugbar
 - **検討中**: Issue #42 — テスト環境の整備（SQLite in-memory vs MySQL testing DB、ユーザーが方針を決定中）
