@@ -15,6 +15,11 @@
                 "action": "php vendor/bin/phpstan analyse",
                 "options": [],
                 "conditions": []
+            },
+            {
+                "action": "php artisan test",
+                "options": [],
+                "conditions": []
             }
         ]
     },
