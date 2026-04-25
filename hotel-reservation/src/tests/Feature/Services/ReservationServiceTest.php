@@ -122,4 +122,15 @@ class ReservationServiceTest extends TestCase
         $this->assertSame(ReservationSlotStatus::Available, $slot->fresh()->status);
         $this->assertSame(ReservationStatus::Cancelled, $reservation->fresh()->status);
     }
+
+    public function test_料金が設定されていない場合は予約できない(): void
+    {
+        $plan = AccommodationPlan::factory()->create();
+        $slot = ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Available]);
+        // PlanRoomPrice を作らない
+
+        $this->expectException(\RuntimeException::class);
+
+        $this->service->reserve($slot, $plan, $this->guestData());
+    }
 }
