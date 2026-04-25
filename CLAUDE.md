@@ -86,6 +86,55 @@ main                        # 課題完成後にのみマージ
 - Larastan level 6 をパスすること
 - コミット前に pre-commit フックが自動で両方を実行する
 
+## アーキテクチャ方針（hotel-reservation）
+
+### コントローラー構造
+
+**who-what-whom 構成**でコントローラーを設計する。
+コントローラーのディレクトリパス自体が「誰が（Who）・何を（What）・誰に（Whom）」を表すようにする。
+1ファイル1ユースケースの `__invoke` シングルアクションコントローラーで実装することでこれを自然に実現できる。
+
+全てサブディレクトリに統一する理由：シングルアクションとリソース型を同一ディレクトリに混在させると「このファイルはどちらのパターン？」がひと目で判断できなくなるため。
+
+```
+Http/Controllers/
+  User/                        # Who: 宿泊者
+    Plan/
+      IndexController.php      # 宿泊者がプラン一覧を見る
+      ShowController.php       # 宿泊者がプラン詳細を見る
+    Reservation/
+      ConfirmController.php    # 宿泊者が予約内容を確認する
+      StoreController.php      # 宿泊者が予約を確定する
+  Admin/                       # Who: 管理者
+    Plan/
+      IndexController.php
+      StoreController.php
+      ...
+    ReservationSlot/
+      IndexController.php
+      BulkCreateController.php # 管理者が予約枠を期間一括作成する
+      ...
+    Reservation/
+      CancelController.php     # 管理者が予約をキャンセルする（+ メール送信 + 枠解放）
+      ...
+```
+
+### 役割分担
+
+| 層 | 責務 |
+|---|---|
+| Controller | リクエスト受け取り → Service 呼び出し → レスポンス返却のみ（薄く保つ） |
+| Service | ビジネスロジック・クエリ（User/Admin 共通処理の置き場所） |
+| View | User/Admin で別々に持つ |
+
+### 判断軸
+
+**コントローラーレベルでの共通化はしない。**
+継承や引数分岐を持ち込むと who-what-whom の「このファイルを開けばこのユースケースだけ」という明快さが壊れるため。
+
+User/ と Admin/ で似た処理が必要な場合は、コントローラーは別々に作り、共通ロジックを Service に逃がす。
+コントローラーが薄ければ、ファイルが増えても1ファイルあたりの複雑さは低く保てる。
+
 ## Xdebug 使い方
 
 1. VSCode のデバッグパネルで「Listen for Xdebug (Sail)」を選択して F5
