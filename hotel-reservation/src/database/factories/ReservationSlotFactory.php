@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ReservationSlotStatus;
 use App\Models\ReservationSlot;
 use App\Models\RoomType;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,7 +24,7 @@ class ReservationSlotFactory extends Factory
 
         return [
             'room_type_id' => RoomType::factory(),
-            'status' => 1,
+            'status' => ReservationSlotStatus::Available,
             'start' => $start->format('Y-m-d'),
             'end' => $end->format('Y-m-d'),
         ];

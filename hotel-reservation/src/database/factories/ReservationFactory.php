@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ReservationStatus;
 use App\Models\AccommodationPlan;
 use App\Models\Reservation;
 use App\Models\ReservationSlot;
@@ -30,7 +31,7 @@ class ReservationFactory extends Factory
             'address' => $this->faker->address(),
             'phone' => $this->faker->phoneNumber(),
             'message' => $this->faker->optional()->sentence(),
-            'status' => 1,
+            'status' => ReservationStatus::Confirmed,
             'memo' => null,
         ];
     }

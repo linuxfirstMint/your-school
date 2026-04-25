@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\InquiryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +19,9 @@ class Inquiry extends Model
         'phone',
         'message',
         'status',
+    ];
+
+    protected $casts = [
+        'status' => InquiryStatus::class,
     ];
 }
