@@ -158,13 +158,14 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #54 | 管理者認証（カスタムガード・ログイン・ログアウト・Seeder） | feature/issue-54 |
 | #55 | Model / Factory（全テーブル・リレーション） | feature/issue-55 |
 | #59 | pre-commit フックにテスト実行を追加 | ci/issue-59 |
+| #56 | ReservationService テスト（TDD）・実装 | feature/issue-56 |
+| #62 | status フィールドを PHP enum で型安全にリファクタリング | refactor/issue-62 |
+| #65 | 料金未設定時の予約不可テスト追加 | test/issue-65 |
+| #57 | Controller 接続・シンプル UI | feature/issue-57 |
 
 ### 進行中・残タスク
 
-| Issue | 内容 |
-|---|---|
-| #56 | ReservationService テスト（TDD）・実装 ← **次** |
-| #57 | Controller 接続・シンプル UI |
+なし（MVP の予約フロー・管理者キャンセルまで動作確認済み）
 
 ### MVP 方針
 
