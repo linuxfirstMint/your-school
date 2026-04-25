@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\InquiryStatus;
 use App\Models\Inquiry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +25,7 @@ class InquiryFactory extends Factory
             'address' => $this->faker->address(),
             'phone' => $this->faker->phoneNumber(),
             'message' => $this->faker->optional()->sentence(),
-            'status' => 1,
+            'status' => InquiryStatus::Unread,
         ];
     }
 }

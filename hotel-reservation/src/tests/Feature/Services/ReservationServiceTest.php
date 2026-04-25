@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Services;
 
+use App\Enums\ReservationSlotStatus;
+use App\Enums\ReservationStatus;
 use App\Models\AccommodationPlan;
 use App\Models\PlanRoomPrice;
 use App\Models\Reservation;
@@ -38,7 +40,7 @@ class ReservationServiceTest extends TestCase
     public function test_正常に予約が作成できる(): void
     {
         $plan = AccommodationPlan::factory()->create();
-        $slot = ReservationSlot::factory()->create(['status' => 1]);
+        $slot = ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Available]);
         PlanRoomPrice::factory()->create([
             'accommodation_plan_id' => $plan->id,
             'room_type_id'          => $slot->room_type_id,
@@ -57,7 +59,7 @@ class ReservationServiceTest extends TestCase
     public function test_予約確定時にplan_nameとpriceのスナップショットが保存される(): void
     {
         $plan = AccommodationPlan::factory()->create(['name' => 'スタンダードプラン']);
-        $slot = ReservationSlot::factory()->create(['status' => 1]);
+        $slot = ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Available]);
         PlanRoomPrice::factory()->create([
             'accommodation_plan_id' => $plan->id,
             'room_type_id'          => $slot->room_type_id,
@@ -73,7 +75,7 @@ class ReservationServiceTest extends TestCase
     public function test_予約済みの枠には予約できない(): void
     {
         $plan = AccommodationPlan::factory()->create();
-        $slot = ReservationSlot::factory()->create(['status' => 2]);
+        $slot = ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Booked]);
         PlanRoomPrice::factory()->create([
             'accommodation_plan_id' => $plan->id,
             'room_type_id'          => $slot->room_type_id,
@@ -88,7 +90,7 @@ class ReservationServiceTest extends TestCase
     public function test_予約確定時に予約枠のステータスが埋まっているに更新される(): void
     {
         $plan = AccommodationPlan::factory()->create();
-        $slot = ReservationSlot::factory()->create(['status' => 1]);
+        $slot = ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Available]);
         PlanRoomPrice::factory()->create([
             'accommodation_plan_id' => $plan->id,
             'room_type_id'          => $slot->room_type_id,
@@ -97,13 +99,13 @@ class ReservationServiceTest extends TestCase
 
         $this->service->reserve($slot, $plan, $this->guestData());
 
-        $this->assertSame(2, $slot->fresh()->status);
+        $this->assertSame(ReservationSlotStatus::Booked, $slot->fresh()->status);
     }
 
     public function test_予約キャンセル時に予約枠が解放される(): void
     {
         $plan = AccommodationPlan::factory()->create();
-        $slot = ReservationSlot::factory()->create(['status' => 2]);
+        $slot = ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Booked]);
         PlanRoomPrice::factory()->create([
             'accommodation_plan_id' => $plan->id,
             'room_type_id'          => $slot->room_type_id,
@@ -112,12 +114,12 @@ class ReservationServiceTest extends TestCase
         $reservation = Reservation::factory()->create([
             'reservation_slot_id'   => $slot->id,
             'accommodation_plan_id' => $plan->id,
-            'status'                => 1,
+            'status'                => ReservationStatus::Confirmed,
         ]);
 
         $this->service->cancel($reservation);
 
-        $this->assertSame(1, $slot->fresh()->status);
-        $this->assertSame(2, $reservation->fresh()->status);
+        $this->assertSame(ReservationSlotStatus::Available, $slot->fresh()->status);
+        $this->assertSame(ReservationStatus::Cancelled, $reservation->fresh()->status);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ReservationSlotStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,8 +16,9 @@ class ReservationSlot extends Model
     protected $fillable = ['room_type_id', 'status', 'start', 'end'];
 
     protected $casts = [
-        'start' => 'date',
-        'end' => 'date',
+        'status' => ReservationSlotStatus::class,
+        'start'  => 'date',
+        'end'    => 'date',
     ];
 
     /** @return BelongsTo<RoomType, $this> */
