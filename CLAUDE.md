@@ -149,4 +149,25 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 
 ## 現在の作業状況
 
-- **完了**: 環境構築、Larastan、PHP CS Fixer、CaptainHook、GitHub Actions CI、テスト環境整備、Xdebug、Laravel Debugbar
+### 完了済み
+
+| Issue | 内容 | ブランチ |
+|---|---|---|
+| - | 環境構築、Larastan、PHP CS Fixer、CaptainHook、CI、Xdebug、Debugbar | - |
+| #52 | マイグレーション（全8テーブル） | feature/issue-52 |
+| #54 | 管理者認証（カスタムガード・ログイン・ログアウト・Seeder） | feature/issue-54 |
+| #55 | Model / Factory（全テーブル・リレーション） | feature/issue-55 |
+| #59 | pre-commit フックにテスト実行を追加 | ci/issue-59 |
+
+### 進行中・残タスク
+
+| Issue | 内容 |
+|---|---|
+| #56 | ReservationService テスト（TDD）・実装 ← **次** |
+| #57 | Controller 接続・シンプル UI |
+
+### MVP 方針
+
+- 宿泊者：未ログインでゲスト予約（宿泊者ログイン機能は実装しない）
+- 管理者：カスタムガード（`auth:admin`）でログイン必須
+- Breeze は使用しない（管理者はシーダー登録のみ・パスワードリセット不要のため）
