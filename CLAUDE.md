@@ -72,7 +72,10 @@ main                        # 課題完成後にのみマージ
 └── dev/hotel-reservation   # 開発ベースブランチ（長寿命）
     ├── feature/issue-XX    # 機能追加
     ├── fix/issue-XX        # バグ修正
-    └── chore/issue-XX      # 環境整備など
+    ├── chore/issue-XX      # 開発ツール・依存関係の管理（Larastan, PHP CS Fixer など）
+    ├── ci/issue-XX         # CI/CD パイプラインの変更（GitHub Actions, pre-commit フックなど）
+    ├── test/issue-XX       # テストの追加・修正
+    └── docs/issue-XX       # ドキュメントのみの変更
 ```
 
 - 作業ブランチは Issue 番号をつける
