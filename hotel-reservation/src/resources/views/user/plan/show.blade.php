@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ $plan->name }}</title>
+</head>
+<body>
+<a href="{{ route('user.plans.index') }}">← プラン一覧へ</a>
+
+<h1>{{ $plan->name }}</h1>
+
+@if ($plan->planImages->isNotEmpty())
+    <div>
+        @foreach ($plan->planImages as $image)
+            <img src="{{ Storage::url($image->image_path) }}" alt="{{ $image->name }}">
+        @endforeach
+    </div>
+@endif
+
+@if ($plan->description)
+    <p>{{ $plan->description }}</p>
+@endif
+
+@if ($plan->planRoomPrices->isNotEmpty())
+    <h2>料金</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>部屋タイプ</th>
+                <th>1泊料金</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($plan->planRoomPrices as $price)
+                <tr>
+                    <td>{{ $price->roomType->name }}</td>
+                    <td>{{ number_format($price->price) }}円</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
+{{-- #71 空室カレンダー実装後にリンクを接続する --}}
+<p>空室カレンダーは準備中です。</p>
+</body>
+</html>
