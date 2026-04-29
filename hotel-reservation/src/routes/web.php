@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ReservationSlot\EditController as AdminReservatio
 use App\Http\Controllers\Admin\ReservationSlot\IndexController as AdminReservationSlotIndexController;
 use App\Http\Controllers\Admin\ReservationSlot\StoreController as AdminReservationSlotStoreController;
 use App\Http\Controllers\Admin\ReservationSlot\UpdateController as AdminReservationSlotUpdateController;
+use App\Http\Controllers\User\Plan\CalendarController as UserPlanCalendarController;
 use App\Http\Controllers\User\Plan\IndexController as UserPlanIndexController;
 use App\Http\Controllers\User\Plan\ShowController as UserPlanShowController;
 use App\Http\Controllers\User\Reservation\ConfirmController as UserReservationConfirmController;
@@ -30,6 +31,7 @@ Route::get('/', function () {
 Route::prefix('plans')->name('user.plans.')->group(function () {
     Route::get('/', UserPlanIndexController::class)->name('index');
     Route::get('{plan}', UserPlanShowController::class)->name('show');
+    Route::get('{plan}/calendar', UserPlanCalendarController::class)->name('calendar');
 });
 
 // 宿泊者：予約フロー（認証不要）
