@@ -17,14 +17,19 @@ class StoreController extends Controller
             'images'      => ['nullable', 'array'],
             'images.*'    => ['image'],
             'prices'      => ['nullable', 'array'],
-            'prices.*'    => ['integer', 'min:0'],
+            'prices.*'    => ['nullable', 'integer', 'min:0'],
         ]);
+
+        $prices = array_filter(
+            $validated['prices'] ?? [],
+            fn ($v) => $v !== null && $v !== '',
+        );
 
         $service->store(
             $validated['name'],
             $validated['description'] ?? null,
             $validated['images'] ?? [],
-            $validated['prices'] ?? [],
+            $prices,
         );
 
         return redirect()->route('admin.plans.index');
