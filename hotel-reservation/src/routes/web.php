@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Plan\DestroyController as AdminPlanDestroyController;
+use App\Http\Controllers\Admin\Plan\EditController as AdminPlanEditController;
+use App\Http\Controllers\Admin\Plan\IndexController as AdminPlanIndexController;
+use App\Http\Controllers\Admin\Plan\StoreController as AdminPlanStoreController;
+use App\Http\Controllers\Admin\Plan\UpdateController as AdminPlanUpdateController;
 use App\Http\Controllers\Admin\Reservation\CancelController as AdminReservationCancelController;
 use App\Http\Controllers\Admin\Reservation\IndexController as AdminReservationIndexController;
 use App\Http\Controllers\Admin\ReservationSlot\BulkStoreController as AdminReservationSlotBulkStoreController;
@@ -44,6 +49,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('reservations')->name('reservations.')->group(function () {
             Route::get('/', AdminReservationIndexController::class)->name('index');
             Route::delete('{reservation}/cancel', AdminReservationCancelController::class)->name('cancel');
+        });
+
+        // 宿泊プラン管理
+        Route::prefix('plans')->name('plans.')->group(function () {
+            Route::get('/', AdminPlanIndexController::class)->name('index');
+            Route::post('/', AdminPlanStoreController::class)->name('store');
+            Route::get('{plan}/edit', AdminPlanEditController::class)->name('edit');
+            Route::put('{plan}', AdminPlanUpdateController::class)->name('update');
+            Route::delete('{plan}', AdminPlanDestroyController::class)->name('destroy');
         });
 
         // 予約枠管理
