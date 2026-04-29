@@ -4,6 +4,12 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Reservation\CancelController as AdminReservationCancelController;
 use App\Http\Controllers\Admin\Reservation\IndexController as AdminReservationIndexController;
+use App\Http\Controllers\Admin\ReservationSlot\BulkStoreController as AdminReservationSlotBulkStoreController;
+use App\Http\Controllers\Admin\ReservationSlot\DestroyController as AdminReservationSlotDestroyController;
+use App\Http\Controllers\Admin\ReservationSlot\EditController as AdminReservationSlotEditController;
+use App\Http\Controllers\Admin\ReservationSlot\IndexController as AdminReservationSlotIndexController;
+use App\Http\Controllers\Admin\ReservationSlot\StoreController as AdminReservationSlotStoreController;
+use App\Http\Controllers\Admin\ReservationSlot\UpdateController as AdminReservationSlotUpdateController;
 use App\Http\Controllers\User\Reservation\ConfirmController as UserReservationConfirmController;
 use App\Http\Controllers\User\Reservation\CreateController as UserReservationCreateController;
 use App\Http\Controllers\User\Reservation\StoreController as UserReservationStoreController;
@@ -18,6 +24,7 @@ Route::prefix('reservations')->name('user.reservations.')->group(function () {
     Route::get('create', UserReservationCreateController::class)->name('create');
     Route::post('confirm', UserReservationConfirmController::class)->name('confirm');
     Route::post('/', UserReservationStoreController::class)->name('store');
+    Route::get('/', fn () => redirect('/'))->name('index');
     Route::get('complete', fn () => view('user.reservation.complete'))->name('complete');
 });
 
@@ -37,6 +44,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::prefix('reservations')->name('reservations.')->group(function () {
             Route::get('/', AdminReservationIndexController::class)->name('index');
             Route::delete('{reservation}/cancel', AdminReservationCancelController::class)->name('cancel');
+        });
+
+        // 予約枠管理
+        Route::prefix('reservation-slots')->name('reservation-slots.')->group(function () {
+            Route::get('/', AdminReservationSlotIndexController::class)->name('index');
+            Route::post('/', AdminReservationSlotStoreController::class)->name('store');
+            Route::post('bulk', AdminReservationSlotBulkStoreController::class)->name('bulk-store');
+            Route::get('{reservationSlot}/edit', AdminReservationSlotEditController::class)->name('edit');
+            Route::put('{reservationSlot}', AdminReservationSlotUpdateController::class)->name('update');
+            Route::delete('{reservationSlot}', AdminReservationSlotDestroyController::class)->name('destroy');
         });
     });
 });
