@@ -22,6 +22,17 @@ class CalendarControllerTest extends TestCase
             ->assertOk();
     }
 
+    public function test_カレンダーに凡例が表示される(): void
+    {
+        $plan = AccommodationPlan::factory()->create();
+
+        $this->get(route('user.plans.calendar', $plan))
+            ->assertOk()
+            ->assertSee('空室あり')
+            ->assertSee('残りわずか')
+            ->assertSee('満室');
+    }
+
     public function test_削除済みプランは404になる(): void
     {
         $plan = AccommodationPlan::factory()->create();
