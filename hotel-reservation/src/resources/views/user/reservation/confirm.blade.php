@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>予約内容確認</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', '予約内容確認')
+
+@section('content')
 <h1>予約内容確認</h1>
 <p>以下の内容で予約を確定します。よろしければ「予約を確定する」ボタンを押してください。</p>
 
@@ -29,5 +26,4 @@
 </form>
 
 <a href="{{ route('user.reservations.create', ['slot_id' => $slot->id, 'plan_id' => $plan->id]) }}">← 入力に戻る</a>
-</body>
-</html>
+@endsection

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>宿泊プラン編集</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('title', '宿泊プラン編集')
+
+@section('content')
 <h1>宿泊プラン編集</h1>
 <a href="{{ route('admin.plans.index') }}">← 一覧へ</a>
 
@@ -31,5 +28,4 @@
     @endif
     <button type="submit">更新</button>
 </form>
-</body>
-</html>
+@endsection

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>空室カレンダー - {{ $plan->name }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title')空室カレンダー - {{ $plan->name }}@endsection
+
+@section('content')
 <a href="{{ route('user.plans.show', $plan) }}">← プラン詳細へ</a>
 
 <h1>{{ $plan->name }} — 空室カレンダー</h1>
@@ -63,5 +60,4 @@
     &nbsp;
     <a href="{{ route('user.plans.calendar', ['plan' => $plan, 'year' => $nextMonth->year, 'month' => $nextMonth->month]) }}">翌月 →</a>
 </div>
-</body>
-</html>
+@endsection

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>予約一覧（管理者）</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('title', '予約一覧')
+
+@section('content')
 <h1>予約一覧</h1>
 
 @if (session('success'))
@@ -58,5 +55,4 @@
 {{ $reservations->links() }}
 
 <p><a href="{{ route('admin.dashboard') }}">← ダッシュボードへ</a></p>
-</body>
-</html>
+@endsection

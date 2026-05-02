@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ $plan->name }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title'){{ $plan->name }}@endsection
+
+@section('content')
 <a href="{{ route('user.plans.index') }}">← プラン一覧へ</a>
 
 <h1>{{ $plan->name }}</h1>
@@ -44,5 +41,4 @@
 
 {{-- #71 空室カレンダー実装後にリンクを接続する --}}
 <p>空室カレンダーは準備中です。</p>
-</body>
-</html>
+@endsection
