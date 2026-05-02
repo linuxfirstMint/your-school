@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $plan->name }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 <a href="{{ route('user.plans.index') }}">← プラン一覧へ</a>

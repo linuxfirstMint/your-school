@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>予約フォーム</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 <h1>予約フォーム</h1>

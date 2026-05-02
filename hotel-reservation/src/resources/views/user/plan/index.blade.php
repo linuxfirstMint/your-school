@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>宿泊プラン一覧</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 <h1>宿泊プラン一覧</h1>
