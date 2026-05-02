@@ -25,7 +25,7 @@
                         <a class="nav-link" href="#">客室紹介</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">アクセス案内</a>
+                        <a class="nav-link" href="{{ route('user.access') }}">アクセス案内</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">お問い合わせ</a>

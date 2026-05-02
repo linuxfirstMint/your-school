@@ -27,6 +27,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('access', fn () => view('user.access'))->name('user.access');
+
 // 宿泊者：プラン閲覧（認証不要）
 Route::prefix('plans')->name('user.plans.')->group(function () {
     Route::get('/', UserPlanIndexController::class)->name('index');
