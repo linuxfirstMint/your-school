@@ -70,6 +70,15 @@ class PlanControllerTest extends TestCase
             ->assertSee('15,000');
     }
 
+    public function test_プラン詳細ページに空室カレンダーへのリンクがある(): void
+    {
+        $plan = AccommodationPlan::factory()->create();
+
+        $this->get(route('user.plans.show', $plan))
+            ->assertOk()
+            ->assertSee(route('user.plans.calendar', $plan));
+    }
+
     public function test_削除済みのプランの詳細は404になる(): void
     {
         $plan = AccommodationPlan::factory()->create();
