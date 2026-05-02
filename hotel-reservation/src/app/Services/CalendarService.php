@@ -17,9 +17,11 @@ class CalendarService
      * @return array<string, array{availability: CalendarAvailability, slot_id: int|null}>
      *         キーは 'Y-m-d' 形式の日付文字列
      */
-    public function getMonthlyAvailability(AccommodationPlan $plan, int $year, int $month): array
+    public function getMonthlyAvailability(AccommodationPlan $plan, int $year, int $month, ?int $roomTypeId = null): array
     {
-        $roomTypeIds = $plan->planRoomPrices()->pluck('room_type_id')->all();
+        $roomTypeIds = $roomTypeId !== null
+            ? [$roomTypeId]
+            : $plan->planRoomPrices()->pluck('room_type_id')->all();
 
         $firstDay = Carbon::create($year, $month, 1);
         $lastDay  = $firstDay->copy()->endOfMonth();

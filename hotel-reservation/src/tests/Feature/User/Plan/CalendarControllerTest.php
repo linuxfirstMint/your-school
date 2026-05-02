@@ -22,6 +22,54 @@ class CalendarControllerTest extends TestCase
             ->assertOk();
     }
 
+    public function test_カレンダーに部屋タイプのタブが表示される(): void
+    {
+        $roomType = RoomType::factory()->create(['name' => 'スタンダードルーム']);
+        $plan     = AccommodationPlan::factory()->create();
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType->id,
+        ]);
+
+        $this->get(route('user.plans.calendar', $plan))
+            ->assertOk()
+            ->assertSee('スタンダードルーム');
+    }
+
+    public function test_部屋タイプを指定するとその部屋タイプの空室のみ表示される(): void
+    {
+        $roomType1 = RoomType::factory()->create();
+        $roomType2 = RoomType::factory()->create();
+        $plan      = AccommodationPlan::factory()->create();
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType1->id,
+        ]);
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType2->id,
+        ]);
+        $slot1 = ReservationSlot::factory()->create([
+            'room_type_id' => $roomType1->id,
+            'start'        => '2026-06-01',
+            'end'          => '2026-06-02',
+            'status'       => ReservationSlotStatus::Available,
+        ]);
+        $slot2 = ReservationSlot::factory()->create([
+            'room_type_id' => $roomType1->id,
+            'start'        => '2026-06-01',
+            'end'          => '2026-06-02',
+            'status'       => ReservationSlotStatus::Available,
+        ]);
+
+        // roomType2 を指定 → roomType1 の枠は無視されて予約リンクが出ない
+        $this->get(route('user.plans.calendar', ['plan' => $plan, 'room_type_id' => $roomType2->id, 'year' => 2026, 'month' => 6]))
+            ->assertOk()
+            ->assertSee('×')
+            ->assertDontSee(route('user.reservations.create', ['slot_id' => $slot1->id, 'plan_id' => $plan->id]))
+            ->assertDontSee(route('user.reservations.create', ['slot_id' => $slot2->id, 'plan_id' => $plan->id]));
+    }
+
     public function test_カレンダーに凡例が表示される(): void
     {
         $plan = AccommodationPlan::factory()->create();

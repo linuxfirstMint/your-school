@@ -16,18 +16,44 @@
         </nav>
 
         <h1 class="h3 fw-light mb-1">{{ $plan->name }}</h1>
-        <p class="text-muted mb-4">空室カレンダー</p>
+        <p class="text-muted mb-3">空室カレンダー</p>
+
+        {{-- 部屋タイプタブ --}}
+        @if ($roomTypes->isNotEmpty())
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link {{ $roomTypeId === null ? 'active' : '' }}"
+                   href="{{ route('user.plans.calendar', ['plan' => $plan, 'year' => $firstDay->year, 'month' => $firstDay->month]) }}">
+                    全室タイプ
+                </a>
+            </li>
+            @foreach ($roomTypes as $roomType)
+            <li class="nav-item">
+                <a class="nav-link {{ $roomTypeId === $roomType->id ? 'active' : '' }}"
+                   href="{{ route('user.plans.calendar', ['plan' => $plan, 'room_type_id' => $roomType->id, 'year' => $firstDay->year, 'month' => $firstDay->month]) }}">
+                    {{ $roomType->name }}
+                </a>
+            </li>
+            @endforeach
+        </ul>
+        @endif
 
         {{-- 月ナビゲーション --}}
         @php
-            $prevMonth = $firstDay->copy()->subMonth();
-            $nextMonth = $firstDay->copy()->addMonth();
+            $prevMonth  = $firstDay->copy()->subMonth();
+            $nextMonth  = $firstDay->copy()->addMonth();
+            $prevParams = ['plan' => $plan, 'year' => $prevMonth->year, 'month' => $prevMonth->month];
+            $nextParams = ['plan' => $plan, 'year' => $nextMonth->year, 'month' => $nextMonth->month];
+            if ($roomTypeId !== null) {
+                $prevParams['room_type_id'] = $roomTypeId;
+                $nextParams['room_type_id'] = $roomTypeId;
+            }
         @endphp
         <div class="d-flex align-items-center justify-content-between mb-3">
-            <a href="{{ route('user.plans.calendar', ['plan' => $plan, 'year' => $prevMonth->year, 'month' => $prevMonth->month]) }}"
+            <a href="{{ route('user.plans.calendar', $prevParams) }}"
                class="btn btn-outline-secondary btn-sm">← 前月</a>
             <h2 class="h5 mb-0">{{ $firstDay->format('Y年n月') }}</h2>
-            <a href="{{ route('user.plans.calendar', ['plan' => $plan, 'year' => $nextMonth->year, 'month' => $nextMonth->month]) }}"
+            <a href="{{ route('user.plans.calendar', $nextParams) }}"
                class="btn btn-outline-secondary btn-sm">翌月 →</a>
         </div>
 

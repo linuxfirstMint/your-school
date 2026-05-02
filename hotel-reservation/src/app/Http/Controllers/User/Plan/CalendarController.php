@@ -13,12 +13,14 @@ class CalendarController extends Controller
 {
     public function __invoke(Request $request, AccommodationPlan $plan, CalendarService $service): View
     {
-        $year  = $request->integer('year', (int) now()->format('Y'));
-        $month = $request->integer('month', (int) now()->format('n'));
+        $year       = $request->integer('year', (int) now()->format('Y'));
+        $month      = $request->integer('month', (int) now()->format('n'));
+        $roomTypeId = $request->integer('room_type_id') ?: null;
 
-        $calendar  = $service->getMonthlyAvailability($plan, $year, $month);
+        $roomTypes = $plan->planRoomPrices()->with('roomType')->get()->pluck('roomType');
+        $calendar  = $service->getMonthlyAvailability($plan, $year, $month, $roomTypeId);
         $firstDay  = Carbon::create($year, $month, 1);
 
-        return view('user.plan.calendar', compact('plan', 'calendar', 'firstDay'));
+        return view('user.plan.calendar', compact('plan', 'calendar', 'firstDay', 'roomTypes', 'roomTypeId'));
     }
 }
