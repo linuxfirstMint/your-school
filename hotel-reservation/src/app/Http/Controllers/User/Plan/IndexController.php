@@ -10,7 +10,7 @@ class IndexController extends Controller
 {
     public function __invoke(): View
     {
-        $plans = AccommodationPlan::with('planImages')->paginate(12);
+        $plans = AccommodationPlan::with(['planImages', 'planRoomPrices'])->paginate(12);
 
         return view('user.plan.index', compact('plans'));
     }

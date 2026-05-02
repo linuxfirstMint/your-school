@@ -3,6 +3,7 @@
 namespace Tests\Feature\User\Plan;
 
 use App\Models\AccommodationPlan;
+use App\Models\PlanImage;
 use App\Models\PlanRoomPrice;
 use App\Models\RoomType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,6 +30,32 @@ class PlanControllerTest extends TestCase
         $this->get(route('user.plans.index'))
             ->assertOk()
             ->assertSee('絶景プラン');
+    }
+
+    public function test_プラン一覧にプランの画像が表示される(): void
+    {
+        $plan = AccommodationPlan::factory()->create();
+        PlanImage::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'image_path'            => 'plans/test-image.jpg',
+        ]);
+
+        $this->get(route('user.plans.index'))
+            ->assertOk()
+            ->assertSee('plans/test-image.jpg', false);
+    }
+
+    public function test_プラン一覧に最低料金が表示される(): void
+    {
+        $plan = AccommodationPlan::factory()->create();
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'price'                 => 12000,
+        ]);
+
+        $this->get(route('user.plans.index'))
+            ->assertOk()
+            ->assertSee('12,000');
     }
 
     public function test_削除済みのプランは一覧に表示されない(): void
