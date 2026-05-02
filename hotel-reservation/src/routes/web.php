@@ -28,6 +28,7 @@ Route::get('/', function () {
 });
 
 Route::get('access', fn () => view('user.access'))->name('user.access');
+Route::get('rooms', fn () => view('user.rooms'))->name('user.rooms');
 
 // 宿泊者：プラン閲覧（認証不要）
 Route::prefix('plans')->name('user.plans.')->group(function () {
