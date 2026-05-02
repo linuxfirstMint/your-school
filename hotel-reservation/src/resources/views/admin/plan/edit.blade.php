@@ -8,10 +8,10 @@
 <h1>宿泊プラン編集</h1>
 <a href="{{ route('admin.plans.index') }}">← 一覧へ</a>
 
-<form action="{{ route('admin.plans.update', $plan) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.plans.update', $plan) }}" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
     @method('PUT')
-    <label>プラン名：<input type="text" name="name" value="{{ old('name', $plan->name) }}" required></label>
+    <label>プラン名 <span style="color:red">*</span>：<input type="text" name="name" value="{{ old('name', $plan->name) }}" required></label>
     <label>説明：<textarea name="description">{{ old('description', $plan->description) }}</textarea></label>
     <label>画像（変更する場合のみ）：<input type="file" name="images[]" multiple accept="image/*"></label>
     @foreach ($roomTypes as $roomType)

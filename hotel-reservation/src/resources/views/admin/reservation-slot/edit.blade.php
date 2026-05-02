@@ -19,12 +19,12 @@
     </ul>
 @endif
 
-<form action="{{ route('admin.reservation-slots.update', $reservationSlot) }}" method="POST">
+<form action="{{ route('admin.reservation-slots.update', $reservationSlot) }}" method="POST" novalidate>
     @csrf
     @method('PUT')
 
     <p>
-        <label>部屋タイプ：
+        <label>部屋タイプ <span style="color:red">*</span>：
             <select name="room_type_id" required>
                 @foreach ($roomTypes as $roomType)
                     <option value="{{ $roomType->id }}"
@@ -36,13 +36,13 @@
         </label>
     </p>
     <p>
-        <label>チェックイン：
+        <label>チェックイン <span style="color:red">*</span>：
             <input type="date" name="start"
                    value="{{ old('start', $reservationSlot->start->format('Y-m-d')) }}" required>
         </label>
     </p>
     <p>
-        <label>チェックアウト：
+        <label>チェックアウト <span style="color:red">*</span>：
             <input type="date" name="end"
                    value="{{ old('end', $reservationSlot->end->format('Y-m-d')) }}" required>
         </label>

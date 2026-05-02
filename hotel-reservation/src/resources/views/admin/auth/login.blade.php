@@ -16,7 +16,7 @@
         </ul>
     @endif
 
-    <form method="POST" action="{{ route('admin.login.store') }}">
+    <form method="POST" action="{{ route('admin.login.store') }}" novalidate>
         @csrf
         <div>
             <label for="email">メールアドレス</label>

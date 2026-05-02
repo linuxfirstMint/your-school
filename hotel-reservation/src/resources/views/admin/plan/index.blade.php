@@ -9,9 +9,9 @@
 <a href="{{ route('admin.dashboard') }}">← ダッシュボードへ</a>
 
 <h2>プラン作成</h2>
-<form action="{{ route('admin.plans.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.plans.store') }}" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
-    <label>プラン名：<input type="text" name="name" value="{{ old('name') }}" required></label>
+    <label>プラン名 <span style="color:red">*</span>：<input type="text" name="name" value="{{ old('name') }}" required></label>
     <label>説明：<textarea name="description">{{ old('description') }}</textarea></label>
     <label>画像：<input type="file" name="images[]" multiple accept="image/*"></label>
     @foreach ($roomTypes as $roomType)
