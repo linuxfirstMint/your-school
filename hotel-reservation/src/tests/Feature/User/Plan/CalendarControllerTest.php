@@ -31,7 +31,38 @@ class CalendarControllerTest extends TestCase
             ->assertNotFound();
     }
 
-    public function test_空きのある日付に○が表示される(): void
+    public function test_空きが2つ以上の日付に○が表示される(): void
+    {
+        $roomType1 = RoomType::factory()->create();
+        $roomType2 = RoomType::factory()->create();
+        $plan      = AccommodationPlan::factory()->create();
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType1->id,
+        ]);
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType2->id,
+        ]);
+        ReservationSlot::factory()->create([
+            'room_type_id' => $roomType1->id,
+            'start'        => '2026-06-01',
+            'end'          => '2026-06-02',
+            'status'       => ReservationSlotStatus::Available,
+        ]);
+        ReservationSlot::factory()->create([
+            'room_type_id' => $roomType2->id,
+            'start'        => '2026-06-01',
+            'end'          => '2026-06-02',
+            'status'       => ReservationSlotStatus::Available,
+        ]);
+
+        $this->get(route('user.plans.calendar', ['plan' => $plan, 'year' => 2026, 'month' => 6]))
+            ->assertOk()
+            ->assertSee('○');
+    }
+
+    public function test_空きが1つの日付に△が表示される(): void
     {
         $roomType = RoomType::factory()->create();
         $plan     = AccommodationPlan::factory()->create();
@@ -48,7 +79,7 @@ class CalendarControllerTest extends TestCase
 
         $this->get(route('user.plans.calendar', ['plan' => $plan, 'year' => 2026, 'month' => 6]))
             ->assertOk()
-            ->assertSee('○');
+            ->assertSee('△');
     }
 
     public function test_スロットがない日付に×が表示される(): void
@@ -82,9 +113,9 @@ class CalendarControllerTest extends TestCase
 
     public function test_プランに料金設定のない部屋タイプのスロットは○にならない(): void
     {
-        $roomType        = RoomType::factory()->create();
-        $otherRoomType   = RoomType::factory()->create();
-        $plan            = AccommodationPlan::factory()->create();
+        $roomType      = RoomType::factory()->create();
+        $otherRoomType = RoomType::factory()->create();
+        $plan          = AccommodationPlan::factory()->create();
         // plan には $otherRoomType の料金のみ設定
         PlanRoomPrice::factory()->create([
             'accommodation_plan_id' => $plan->id,
@@ -104,6 +135,37 @@ class CalendarControllerTest extends TestCase
     }
 
     public function test_○の日付に予約フォームへのリンクがある(): void
+    {
+        $roomType1 = RoomType::factory()->create();
+        $roomType2 = RoomType::factory()->create();
+        $plan      = AccommodationPlan::factory()->create();
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType1->id,
+        ]);
+        PlanRoomPrice::factory()->create([
+            'accommodation_plan_id' => $plan->id,
+            'room_type_id'          => $roomType2->id,
+        ]);
+        $slot = ReservationSlot::factory()->create([
+            'room_type_id' => $roomType1->id,
+            'start'        => '2026-06-01',
+            'end'          => '2026-06-02',
+            'status'       => ReservationSlotStatus::Available,
+        ]);
+        ReservationSlot::factory()->create([
+            'room_type_id' => $roomType2->id,
+            'start'        => '2026-06-01',
+            'end'          => '2026-06-02',
+            'status'       => ReservationSlotStatus::Available,
+        ]);
+
+        $this->get(route('user.plans.calendar', ['plan' => $plan, 'year' => 2026, 'month' => 6]))
+            ->assertOk()
+            ->assertSee(route('user.reservations.create', ['slot_id' => $slot->id, 'plan_id' => $plan->id]));
+    }
+
+    public function test_△の日付に予約フォームへのリンクがある(): void
     {
         $roomType = RoomType::factory()->create();
         $plan     = AccommodationPlan::factory()->create();

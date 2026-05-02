@@ -39,8 +39,10 @@
                 @endif
                 <td>
                     {{ \Carbon\Carbon::parse($date)->day }}日<br>
-                    @if ($info['available'])
+                    @if ($info['availability'] === \App\Enums\CalendarAvailability::Available)
                         <a href="{{ route('user.reservations.create', ['slot_id' => $info['slot_id'], 'plan_id' => $plan->id]) }}">○</a>
+                    @elseif ($info['availability'] === \App\Enums\CalendarAvailability::Limited)
+                        <a href="{{ route('user.reservations.create', ['slot_id' => $info['slot_id'], 'plan_id' => $plan->id]) }}">△</a>
                     @else
                         ×
                     @endif
