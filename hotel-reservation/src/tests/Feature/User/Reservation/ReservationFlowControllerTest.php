@@ -102,6 +102,23 @@ class ReservationFlowControllerTest extends TestCase
     }
 
     // ----------------------------------------------------------------
+    // CompleteController
+    // ----------------------------------------------------------------
+
+    public function test_予約完了ページが表示される(): void
+    {
+        $this->get(route('user.reservations.complete'))
+            ->assertOk();
+    }
+
+    public function test_予約完了ページに他プラン誘導リンクがある(): void
+    {
+        $this->get(route('user.reservations.complete'))
+            ->assertOk()
+            ->assertSee('他のプランを見る');
+    }
+
+    // ----------------------------------------------------------------
     // ヘルパー
     // ----------------------------------------------------------------
 
