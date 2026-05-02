@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Enums;
+
+enum CalendarAvailability
+{
+    case Available;   // 空きあり（2枠以上）
+    case Limited;     // 残りわずか（1枠）
+    case Unavailable; // 空きなし
+}

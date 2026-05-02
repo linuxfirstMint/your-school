@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\CalendarAvailability;
 use App\Enums\ReservationSlotStatus;
 use App\Models\AccommodationPlan;
 use App\Models\ReservationSlot;
@@ -13,7 +14,7 @@ class CalendarService
     /**
      * プランの月次空室状況を返す。
      *
-     * @return array<string, array{available: bool, slot_id: int|null}>
+     * @return array<string, array{availability: CalendarAvailability, slot_id: int|null}>
      *         キーは 'Y-m-d' 形式の日付文字列
      */
     public function getMonthlyAvailability(AccommodationPlan $plan, int $year, int $month): array
@@ -30,16 +31,20 @@ class CalendarService
 
         $calendar = [];
         foreach (CarbonPeriod::create($firstDay, $lastDay) as $day) {
-            $dateKey     = $day->toDateString();
-            $daySlots    = $slots->get($dateKey, collect());
-            $available   = $daySlots->contains('status', ReservationSlotStatus::Available);
-            $availSlot   = $available
-                ? $daySlots->first(fn ($s) => $s->status === ReservationSlotStatus::Available)
-                : null;
+            $dateKey    = $day->toDateString();
+            $daySlots   = $slots->get($dateKey, collect());
+            $availSlots = $daySlots->filter(fn ($s) => $s->status === ReservationSlotStatus::Available);
+            $availCount = $availSlots->count();
+
+            $availability = match (true) {
+                $availCount >= 2 => CalendarAvailability::Available,
+                $availCount === 1 => CalendarAvailability::Limited,
+                default          => CalendarAvailability::Unavailable,
+            };
 
             $calendar[$dateKey] = [
-                'available' => $available,
-                'slot_id'   => $availSlot?->id,
+                'availability' => $availability,
+                'slot_id'      => $availCount >= 1 ? $availSlots->first()->id : null,
             ];
         }
 
