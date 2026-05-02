@@ -180,6 +180,7 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #95 | 客室紹介ページの UI 実装（部屋タイプ別写真・設備・アメニティ） | feature/issue-95 |
 | #118 | fix: プラン詳細→空室カレンダーのリンク接続（予約フロー断絶を修正） | fix/issue-118 |
 | #119 | feat: 宿泊プラン一覧・詳細ページの UI 改善（Bootstrap・サムネイル・最低料金・Seeder） | feature/issue-119 |
+| #120 | feat: 空室カレンダーページの UI 改善（Bootstrap・凡例・月ナビ） | feature/issue-120 |
 
 ### 進行中・残タスク
 
@@ -187,8 +188,7 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 
 | Issue | 内容 | 優先度 |
 |---|---|---|
-| #120 | feat: 空室カレンダーページの UI 改善（Bootstrap） | 高 |
-| #120 | feat: 空室カレンダーページの UI 改善（Bootstrap） | 高 |
+| #121 | feat: 予約フォーム・確認・完了ページの UI 改善（Bootstrap） | 高 |
 | #121 | feat: 予約フォーム・確認・完了ページの UI 改善（Bootstrap） | 高 |
 | #122 | feat: 管理者側各ページの UI 改善（Bootstrap） | 中 |
 | #96 | MCP Playwright の導入と宿泊者予約フローの E2E テスト | 中（UI 完成後） |
