@@ -39,6 +39,5 @@
     </table>
 @endif
 
-{{-- #71 空室カレンダー実装後にリンクを接続する --}}
-<p>空室カレンダーは準備中です。</p>
+<a href="{{ route('user.plans.calendar', $plan) }}">空室カレンダーを確認する</a>
 @endsection
