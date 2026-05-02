@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>予約枠編集</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('title', '予約枠編集')
+
+@section('content')
 <h1>予約枠編集</h1>
 <a href="{{ route('admin.reservation-slots.index') }}">← 一覧へ戻る</a>
 
@@ -51,5 +48,4 @@
 
     <button type="submit">更新</button>
 </form>
-</body>
-</html>
+@endsection

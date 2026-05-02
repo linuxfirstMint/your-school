@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>予約フォーム</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', '予約フォーム')
+
+@section('content')
 <h1>予約フォーム</h1>
 
 <table border="1">
@@ -38,5 +35,4 @@
 
     <button type="submit">確認画面へ</button>
 </form>
-</body>
-</html>
+@endsection

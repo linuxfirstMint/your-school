@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>宿泊プラン一覧</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', '宿泊プラン一覧')
+
+@section('content')
 <h1>宿泊プラン一覧</h1>
 
 @forelse ($plans as $plan)
@@ -21,5 +18,4 @@
 @endforelse
 
 {{ $plans->links() }}
-</body>
-</html>
+@endsection

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>宿泊プラン管理</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('title', '宿泊プラン管理')
+
+@section('content')
 <h1>宿泊プラン管理</h1>
 <a href="{{ route('admin.dashboard') }}">← ダッシュボードへ</a>
 
@@ -57,5 +54,4 @@
     </tbody>
 </table>
 {{ $plans->links() }}
-</body>
-</html>
+@endsection
