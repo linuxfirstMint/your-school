@@ -16,9 +16,9 @@
 @endif
 
 <h2>個別作成</h2>
-<form action="{{ route('admin.reservation-slots.store') }}" method="POST">
+<form action="{{ route('admin.reservation-slots.store') }}" method="POST" novalidate>
     @csrf
-    <label>部屋タイプ：
+    <label>部屋タイプ <span style="color:red">*</span>：
         <select name="room_type_id" required>
             <option value="">選択してください</option>
             @foreach ($roomTypes as $roomType)
@@ -28,8 +28,8 @@
             @endforeach
         </select>
     </label>
-    <label>チェックイン：<input type="date" name="start" value="{{ old('start') }}" required></label>
-    <label>チェックアウト：<input type="date" name="end" value="{{ old('end') }}" required></label>
+    <label>チェックイン <span style="color:red">*</span>：<input type="date" name="start" value="{{ old('start') }}" required></label>
+    <label>チェックアウト <span style="color:red">*</span>：<input type="date" name="end" value="{{ old('end') }}" required></label>
     <button type="submit">作成</button>
 </form>
 @if ($errors->any())
@@ -41,9 +41,9 @@
 @endif
 
 <h2>期間一括作成</h2>
-<form action="{{ route('admin.reservation-slots.bulk-store') }}" method="POST">
+<form action="{{ route('admin.reservation-slots.bulk-store') }}" method="POST" novalidate>
     @csrf
-    <label>部屋タイプ：
+    <label>部屋タイプ <span style="color:red">*</span>：
         <select name="room_type_id" required>
             <option value="">選択してください</option>
             @foreach ($roomTypes as $roomType)
@@ -53,8 +53,8 @@
             @endforeach
         </select>
     </label>
-    <label>開始日：<input type="date" name="from" required></label>
-    <label>終了日（最終チェックアウト日）：<input type="date" name="to" required></label>
+    <label>開始日 <span style="color:red">*</span>：<input type="date" name="from" required></label>
+    <label>終了日（最終チェックアウト日） <span style="color:red">*</span>：<input type="date" name="to" required></label>
     <button type="submit">一括作成</button>
     <small>※開始日〜終了日の前日まで、1泊ずつ予約枠を作成します。定員に達した日程はスキップします。</small>
 </form>
