@@ -22,7 +22,7 @@
                         <a class="nav-link" href="{{ route('user.plans.index') }}">宿泊プラン</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">客室紹介</a>
+                        <a class="nav-link" href="{{ route('user.rooms') }}">客室紹介</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.access') }}">アクセス案内</a>

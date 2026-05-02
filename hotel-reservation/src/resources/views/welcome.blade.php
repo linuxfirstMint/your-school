@@ -76,7 +76,7 @@
     <div class="container">
         <div class="row g-4 justify-content-center">
             <div class="col-md-5">
-                <a href="#" class="text-decoration-none">
+                <a href="{{ route('user.rooms') }}" class="text-decoration-none">
                     <div class="position-relative overflow-hidden rounded" style="height: 240px;">
                         <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&q=80"
                              class="w-100 h-100" style="object-fit: cover;" alt="客室紹介">
@@ -89,7 +89,7 @@
                 </a>
             </div>
             <div class="col-md-5">
-                <a href="#" class="text-decoration-none">
+                <a href="{{ route('user.access') }}" class="text-decoration-none">
                     <div class="position-relative overflow-hidden rounded" style="height: 240px;">
                         <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
                              class="w-100 h-100" style="object-fit: cover;" alt="アクセス案内">
