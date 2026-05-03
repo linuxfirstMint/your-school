@@ -91,6 +91,33 @@ class SendReservationRemindersTest extends TestCase
         Mail::assertNothingSent();
     }
 
+    public function test_送信件数がコンソールに出力される(): void
+    {
+        Mail::fake();
+
+        $tomorrow = now()->addDay()->toDateString();
+        $slots = ReservationSlot::factory()->count(3)->create(['start' => $tomorrow]);
+        foreach ($slots as $slot) {
+            Reservation::factory()->create([
+                'reservation_slot_id' => $slot->id,
+                'status'              => ReservationStatus::Confirmed,
+            ]);
+        }
+
+        $this->artisan('reservations:send-reminders')
+            ->assertSuccessful()
+            ->expectsOutput('リマインドメールを 3 件送信しました。');
+    }
+
+    public function test_対象が0件の場合も件数がコンソールに出力される(): void
+    {
+        Mail::fake();
+
+        $this->artisan('reservations:send-reminders')
+            ->assertSuccessful()
+            ->expectsOutput('リマインドメールを 0 件送信しました。');
+    }
+
     public function test_送信されるメールに正しい予約者情報が含まれる(): void
     {
         Mail::fake();
