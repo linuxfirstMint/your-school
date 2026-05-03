@@ -28,6 +28,8 @@ class SendReservationReminders extends Command
             Mail::send(new ReservationReminderMail($reservation));
         }
 
+        $this->info("リマインドメールを {$reservations->count()} 件送信しました。");
+
         return self::SUCCESS;
     }
 }
