@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\ReservationSlot\EditController as AdminReservatio
 use App\Http\Controllers\Admin\ReservationSlot\IndexController as AdminReservationSlotIndexController;
 use App\Http\Controllers\Admin\ReservationSlot\StoreController as AdminReservationSlotStoreController;
 use App\Http\Controllers\Admin\ReservationSlot\UpdateController as AdminReservationSlotUpdateController;
+use App\Http\Controllers\User\Contact\CompleteController as UserContactCompleteController;
+use App\Http\Controllers\User\Contact\CreateController as UserContactCreateController;
+use App\Http\Controllers\User\Contact\StoreController as UserContactStoreController;
 use App\Http\Controllers\User\Plan\CalendarController as UserPlanCalendarController;
 use App\Http\Controllers\User\Plan\IndexController as UserPlanIndexController;
 use App\Http\Controllers\User\Plan\ShowController as UserPlanShowController;
@@ -29,6 +32,13 @@ Route::get('/', function () {
 
 Route::get('access', fn () => view('user.access'))->name('user.access');
 Route::get('rooms', fn () => view('user.rooms'))->name('user.rooms');
+
+// 宿泊者：お問い合わせ
+Route::prefix('contact')->name('user.contact.')->group(function () {
+    Route::get('/', UserContactCreateController::class)->name('create');
+    Route::post('/', UserContactStoreController::class)->name('store');
+    Route::get('complete', UserContactCompleteController::class)->name('complete');
+});
 
 // 宿泊者：プラン閲覧（認証不要）
 Route::prefix('plans')->name('user.plans.')->group(function () {
