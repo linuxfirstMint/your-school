@@ -64,7 +64,7 @@
         </aside>
 
         {{-- ===== メインコンテンツ ===== --}}
-        <main class="flex-grow-1 p-4" style="margin-left:0;" id="adminMain">
+        <main class="flex-grow-1 p-4" id="adminMain">
             @yield('content')
         </main>
 
