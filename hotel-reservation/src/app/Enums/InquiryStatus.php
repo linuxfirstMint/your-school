@@ -4,14 +4,16 @@ namespace App\Enums;
 
 enum InquiryStatus: int
 {
-    case Unread = 1;
-    case Read   = 2;
+    case Pending    = 1;
+    case InProgress = 2;
+    case Resolved   = 3;
 
     public function label(): string
     {
         return match ($this) {
-            self::Unread => '問い合わせ中',
-            self::Read   => '完了',
+            self::Pending    => '未対応',
+            self::InProgress => '対応中',
+            self::Resolved   => '対応完了',
         };
     }
 }

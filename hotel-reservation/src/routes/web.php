@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Inquiry\IndexController as AdminInquiryIndexController;
+use App\Http\Controllers\Admin\Inquiry\ShowController as AdminInquiryShowController;
+use App\Http\Controllers\Admin\Inquiry\UpdateController as AdminInquiryUpdateController;
 use App\Http\Controllers\Admin\Plan\DestroyController as AdminPlanDestroyController;
 use App\Http\Controllers\Admin\Plan\EditController as AdminPlanEditController;
 use App\Http\Controllers\Admin\Plan\IndexController as AdminPlanIndexController;
@@ -93,6 +96,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('{reservationSlot}/edit', AdminReservationSlotEditController::class)->name('edit');
             Route::put('{reservationSlot}', AdminReservationSlotUpdateController::class)->name('update');
             Route::delete('{reservationSlot}', AdminReservationSlotDestroyController::class)->name('destroy');
+        });
+
+        // お問い合わせ管理
+        Route::prefix('inquiries')->name('inquiries.')->group(function () {
+            Route::get('/', AdminInquiryIndexController::class)->name('index');
+            Route::get('{inquiry}', AdminInquiryShowController::class)->name('show');
+            Route::put('{inquiry}', AdminInquiryUpdateController::class)->name('update');
         });
     });
 });
