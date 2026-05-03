@@ -25,7 +25,7 @@ class InquiryFactory extends Factory
             'address' => $this->faker->address(),
             'phone' => $this->faker->phoneNumber(),
             'message' => $this->faker->optional()->sentence(),
-            'status' => InquiryStatus::Unread,
+            'status' => InquiryStatus::Pending,
         ];
     }
 }

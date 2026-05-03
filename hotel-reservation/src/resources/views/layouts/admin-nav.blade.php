@@ -17,5 +17,6 @@
 
     <div class="text-white-50 small px-3 pt-3 pb-1 text-uppercase" style="font-size:.7rem; letter-spacing:.08em;">その他</div>
 
-    <span class="nav-link rounded mb-1 text-white-50">お問い合わせ一覧</span>
+    <a class="nav-link rounded mb-1 {{ request()->routeIs('admin.inquiries.*') ? 'bg-secondary' : 'text-white-50' }} text-white"
+       href="{{ route('admin.inquiries.index') }}">お問い合わせ一覧</a>
 </nav>
