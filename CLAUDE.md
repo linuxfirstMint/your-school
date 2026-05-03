@@ -182,9 +182,11 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #119 | feat: 宿泊プラン一覧・詳細ページの UI 改善（Bootstrap・サムネイル・最低料金・Seeder） | feature/issue-119 |
 | #120 | feat: 空室カレンダーページの UI 改善（Bootstrap・凡例・月ナビ） | feature/issue-120 |
 | #121 | feat: 予約フォーム・確認・完了ページの UI 改善（Bootstrap） | feature/issue-121 |
-| #130 | feat: 空室カレンダーに部屋タイプ別タブを追加（#120 補完） |
+| #130 | feat: 空室カレンダーに部屋タイプ別タブを追加（#120 補完） | feature/issue-130 |
+| #122 | feat: 管理者側各ページの UI 改善（Bootstrap・サイドバーレイアウト） | feature/issue-122 |
+
 ### 進行中・残タスク
-| #122 | feat: 管理者側各ページの UI 改善（Bootstrap） | 中 |
+
 #### フェーズ1：フロントエンド・UI の完成
 
 | Issue | 内容 | 優先度 |
