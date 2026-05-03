@@ -6,7 +6,7 @@
     <title>@yield('title', '管理画面') | {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-light">
     @auth('admin')
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm">
         <div class="container">
@@ -40,7 +40,7 @@
     </nav>
     @endauth
 
-    <main>
+    <main class="py-4">
         @yield('content')
     </main>
 </body>

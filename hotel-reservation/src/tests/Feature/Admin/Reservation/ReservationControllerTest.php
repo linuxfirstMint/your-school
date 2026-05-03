@@ -70,6 +70,27 @@ class ReservationControllerTest extends TestCase
             ->assertSee($reservation->last_name);
     }
 
+    public function test_予約一覧に確定ステータスが日本語で表示される(): void
+    {
+        $this->makeConfirmedReservation();
+
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.reservations.index'))
+            ->assertOk()
+            ->assertSee('確定');
+    }
+
+    public function test_予約一覧にキャンセル済みステータスが日本語で表示される(): void
+    {
+        $reservation = $this->makeConfirmedReservation();
+        $reservation->update(['status' => ReservationStatus::Cancelled]);
+
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.reservations.index'))
+            ->assertOk()
+            ->assertSee('キャンセル済み');
+    }
+
     // ----------------------------------------------------------------
     // CancelController
     // ----------------------------------------------------------------
