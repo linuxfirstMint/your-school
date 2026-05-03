@@ -3,11 +3,16 @@
 namespace Tests\Feature\User\Reservation;
 
 use App\Enums\ReservationSlotStatus;
+use App\Mail\ReservationConfirmedMail;
+use App\Mail\ReservationReceivedMail;
 use App\Models\AccommodationPlan;
+use App\Models\Admin;
 use App\Models\PlanRoomPrice;
 use App\Models\ReservationSlot;
 use App\Models\RoomType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ReservationFlowControllerTest extends TestCase
@@ -99,6 +104,32 @@ class ReservationFlowControllerTest extends TestCase
             ->assertSessionHasErrors(['slot_id', 'plan_id', 'last_name', 'first_name', 'email', 'address', 'phone']);
 
         $this->assertDatabaseCount('reservations', 0);
+    }
+
+    public function test_予約完了後に宿泊者へ予約完了メールが送信される(): void
+    {
+        Mail::fake();
+        [$slot, $plan] = $this->makeAvailableSlotAndPlan();
+
+        $this->post(route('user.reservations.store'), $this->postData($slot->id, $plan->id));
+
+        Mail::assertSent(ReservationConfirmedMail::class, fn ($mail) => $mail->hasTo('hanako@example.com'));
+    }
+
+    public function test_予約完了後に管理者へ予約受付メールが送信される(): void
+    {
+        Mail::fake();
+        Admin::create([
+            'last_name'  => '管理',
+            'first_name' => '太郎',
+            'email'      => 'admin@example.com',
+            'password'   => Hash::make('password'),
+        ]);
+        [$slot, $plan] = $this->makeAvailableSlotAndPlan();
+
+        $this->post(route('user.reservations.store'), $this->postData($slot->id, $plan->id));
+
+        Mail::assertSent(ReservationReceivedMail::class, fn ($mail) => $mail->hasTo('admin@example.com'));
     }
 
     // ----------------------------------------------------------------

@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin\Reservation;
 
 use App\Enums\ReservationSlotStatus;
 use App\Enums\ReservationStatus;
+use App\Mail\ReservationCancelledMail;
 use App\Models\AccommodationPlan;
 use App\Models\Admin;
 use App\Models\PlanRoomPrice;
@@ -12,6 +13,7 @@ use App\Models\ReservationSlot;
 use App\Models\RoomType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ReservationControllerTest extends TestCase
@@ -105,6 +107,17 @@ class ReservationControllerTest extends TestCase
 
         $this->assertSame(ReservationStatus::Cancelled, $reservation->fresh()->status);
         $this->assertSame(ReservationSlotStatus::Available, $reservation->reservationSlot->fresh()->status);
+    }
+
+    public function test_予約キャンセル後に宿泊者へキャンセル完了メールが送信される(): void
+    {
+        Mail::fake();
+        $reservation = $this->makeConfirmedReservation();
+
+        $this->actingAs($this->admin, 'admin')
+            ->delete(route('admin.reservations.cancel', $reservation));
+
+        Mail::assertSent(ReservationCancelledMail::class, fn ($mail) => $mail->hasTo($reservation->email));
     }
 
     public function test_キャンセル済みの予約を再キャンセルしても冪等に動作する(): void
