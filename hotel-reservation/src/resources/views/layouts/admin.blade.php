@@ -6,42 +6,82 @@
     <title>@yield('title', '管理画面') | {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    @auth('admin')
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">管理画面</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav" aria-controls="adminNav" aria-expanded="false" aria-label="メニューを開く">
+<body class="bg-light">
+
+    {{-- ===== 固定ヘッダー ===== --}}
+    <nav class="navbar bg-dark navbar-dark shadow-sm fixed-top" style="height:56px;">
+        <div class="container-fluid px-3">
+
+            {{-- モバイル：ハンバーガーボタン + サイト名 --}}
+            @auth('admin')
+            <button class="navbar-toggler d-lg-none me-2" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas"
+                    aria-controls="adminOffcanvas" aria-label="メニューを開く">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="adminNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.plans.index') }}">プラン管理</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.reservation-slots.index') }}">予約枠管理</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.reservations.index') }}">予約管理</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('admin.logout') }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-outline-light btn-sm">ログアウト</button>
-                        </form>
-                    </li>
-                </ul>
+            @endauth
+
+            <a class="navbar-brand fw-bold" href="{{ route('admin.dashboard') }}">管理画面</a>
+
+            <div class="ms-auto d-flex align-items-center gap-2">
+                {{-- 表サイトへ --}}
+                <a href="{{ url('/') }}" class="btn btn-outline-light btn-sm" target="_blank">
+                    表サイトへ
+                </a>
+                {{-- ログアウト --}}
+                @auth('admin')
+                <form method="POST" action="{{ route('admin.logout') }}" class="mb-0">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-light btn-sm">ログアウト</button>
+                </form>
+                @endauth
             </div>
         </div>
     </nav>
+
+    @auth('admin')
+    {{-- ===== モバイル用 Offcanvas サイドメニュー ===== --}}
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1"
+         id="adminOffcanvas" aria-labelledby="adminOffcanvasLabel">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title" id="adminOffcanvasLabel">管理メニュー</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="閉じる"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            @include('layouts.admin-nav')
+        </div>
+    </div>
     @endauth
 
-    <main>
-        @yield('content')
-    </main>
+    <div class="d-flex" style="padding-top:56px; min-height:100vh;">
+
+        @auth('admin')
+        {{-- ===== 左固定サイドバー（デスクトップのみ表示）===== --}}
+        <aside class="d-none d-lg-block bg-dark text-white"
+               style="width:220px; min-width:220px; position:fixed; top:56px; left:0; height:calc(100vh - 56px); overflow-y:auto; z-index:99;">
+            @include('layouts.admin-nav')
+        </aside>
+
+        {{-- ===== メインコンテンツ ===== --}}
+        <main class="flex-grow-1 p-4" style="margin-left:0;" id="adminMain">
+            @yield('content')
+        </main>
+
+        <style>
+            @media (min-width: 992px) {
+                #adminMain { margin-left: 220px; }
+            }
+        </style>
+
+        @else
+        {{-- 未認証（ログイン画面など） --}}
+        <main class="flex-grow-1 p-4">
+            @yield('content')
+        </main>
+        @endauth
+
+    </div>
+
 </body>
 </html>

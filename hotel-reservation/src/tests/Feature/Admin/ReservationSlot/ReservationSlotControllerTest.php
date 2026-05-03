@@ -97,6 +97,26 @@ class ReservationSlotControllerTest extends TestCase
             ->assertSee('2026/07/01');
     }
 
+    public function test_予約枠一覧に空室ステータスが日本語で表示される(): void
+    {
+        ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Available]);
+
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.reservation-slots.index'))
+            ->assertOk()
+            ->assertSee('空室');
+    }
+
+    public function test_予約枠一覧に予約済みステータスが日本語で表示される(): void
+    {
+        ReservationSlot::factory()->create(['status' => ReservationSlotStatus::Booked]);
+
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.reservation-slots.index'))
+            ->assertOk()
+            ->assertSee('予約済み');
+    }
+
     // ----------------------------------------------------------------
     // StoreController
     // ----------------------------------------------------------------
