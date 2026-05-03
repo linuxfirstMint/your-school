@@ -25,6 +25,24 @@ class ContactControllerTest extends TestCase
     }
 
     // ----------------------------------------------------------------
+    // ConfirmController
+    // ----------------------------------------------------------------
+
+    public function test_正常な入力でお問い合わせ確認画面が表示される(): void
+    {
+        $this->post(route('user.contact.confirm'), $this->postData())
+            ->assertOk()
+            ->assertSee('田中')
+            ->assertSee('hanako@example.com');
+    }
+
+    public function test_バリデーションエラー時は確認画面に進めない(): void
+    {
+        $this->post(route('user.contact.confirm'), [])
+            ->assertSessionHasErrors(['last_name', 'first_name', 'email', 'address', 'phone']);
+    }
+
+    // ----------------------------------------------------------------
     // StoreController
     // ----------------------------------------------------------------
 

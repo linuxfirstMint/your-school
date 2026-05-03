@@ -8,7 +8,7 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <form method="POST" action="{{ route('user.contact.store') }}" novalidate>
+            <form method="POST" action="{{ route('user.contact.confirm') }}" novalidate>
                 @csrf
 
                 <div class="mb-3 row">
