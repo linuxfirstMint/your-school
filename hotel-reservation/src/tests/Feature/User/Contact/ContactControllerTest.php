@@ -90,6 +90,21 @@ class ContactControllerTest extends TestCase
     }
 
     // ----------------------------------------------------------------
+    // BackController
+    // ----------------------------------------------------------------
+
+    public function test_確認画面から戻るとフォームに入力値が復元される(): void
+    {
+        $this->post(route('user.contact.back'), $this->postData())
+            ->assertRedirect(route('user.contact.create'));
+
+        $this->get(route('user.contact.create'))
+            ->assertOk()
+            ->assertSee('田中')
+            ->assertSee('hanako@example.com');
+    }
+
+    // ----------------------------------------------------------------
     // CompleteController
     // ----------------------------------------------------------------
 

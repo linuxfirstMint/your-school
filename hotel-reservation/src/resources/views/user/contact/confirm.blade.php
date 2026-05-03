@@ -30,13 +30,22 @@
                 @endforeach
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('user.contact.create') }}" class="btn btn-outline-secondary flex-fill">
-                        戻って修正する
-                    </a>
                     <button type="submit" class="btn btn-primary flex-fill">
                         送信する
                     </button>
                 </div>
+            </form>
+
+            <form action="{{ route('user.contact.back') }}" method="POST" class="mt-2">
+                @csrf
+                @foreach ($validated as $key => $value)
+                    @if ($value !== null)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endif
+                @endforeach
+                <button type="submit" class="btn btn-outline-secondary w-100">
+                    戻って修正する
+                </button>
             </form>
         </div>
     </div>
