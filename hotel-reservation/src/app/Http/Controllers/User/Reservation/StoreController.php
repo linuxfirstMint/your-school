@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\User\Reservation;
 
 use App\Http\Controllers\Controller;
-use App\Mail\ReservationConfirmedMail;
-use App\Mail\ReservationReceivedMail;
 use App\Models\AccommodationPlan;
-use App\Models\Admin;
 use App\Models\ReservationSlot;
 use App\Services\ReservationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class StoreController extends Controller
 {
@@ -34,15 +30,9 @@ class StoreController extends Controller
         $guestData = array_diff_key($validated, ['slot_id' => '', 'plan_id' => '']);
 
         try {
-            $reservation = $service->reserve($slot, $plan, $guestData);
+            $service->reserve($slot, $plan, $guestData);
         } catch (\RuntimeException $e) {
             return back()->withErrors(['slot_id' => $e->getMessage()]);
-        }
-
-        Mail::send(new ReservationConfirmedMail($reservation));
-
-        foreach (Admin::all() as $admin) {
-            Mail::send(new ReservationReceivedMail($reservation, $admin->email));
         }
 
         return redirect()->route('user.reservations.complete');
