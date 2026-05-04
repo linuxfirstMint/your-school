@@ -16,7 +16,7 @@ class UpdateController extends Controller
             'name'        => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'images'      => ['nullable', 'array'],
-            'images.*'    => ['image'],
+            'images.*'    => ['image', 'max:2048', 'mimes:jpg,jpeg,png,webp'],
             'prices'      => ['nullable', 'array'],
             'prices.*'    => ['nullable', 'integer', 'min:0'],
         ]);
