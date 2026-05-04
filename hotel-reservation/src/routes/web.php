@@ -43,7 +43,7 @@ Route::prefix('contact')->name('user.contact.')->group(function () {
     Route::get('/', UserContactCreateController::class)->name('create');
     Route::post('confirm', UserContactConfirmController::class)->name('confirm');
     Route::post('back', UserContactBackController::class)->name('back');
-    Route::post('/', UserContactStoreController::class)->name('store');
+    Route::post('/', UserContactStoreController::class)->name('store')->middleware('throttle:10,1');
     Route::get('complete', UserContactCompleteController::class)->name('complete');
 });
 
@@ -58,7 +58,7 @@ Route::prefix('plans')->name('user.plans.')->group(function () {
 Route::prefix('reservations')->name('user.reservations.')->group(function () {
     Route::get('create', UserReservationCreateController::class)->name('create');
     Route::post('confirm', UserReservationConfirmController::class)->name('confirm');
-    Route::post('/', UserReservationStoreController::class)->name('store');
+    Route::post('/', UserReservationStoreController::class)->name('store')->middleware('throttle:10,1');
     Route::get('/', fn () => redirect('/'))->name('index');
     Route::get('complete', fn () => view('user.reservation.complete'))->name('complete');
 });
