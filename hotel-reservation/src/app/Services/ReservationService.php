@@ -4,11 +4,16 @@ namespace App\Services;
 
 use App\Enums\ReservationSlotStatus;
 use App\Enums\ReservationStatus;
+use App\Mail\ReservationCancelledMail;
+use App\Mail\ReservationConfirmedMail;
+use App\Mail\ReservationReceivedMail;
 use App\Models\AccommodationPlan;
+use App\Models\Admin;
 use App\Models\PlanRoomPrice;
 use App\Models\Reservation;
 use App\Models\ReservationSlot;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationService
 {
@@ -27,7 +32,7 @@ class ReservationService
             throw new \RuntimeException('この部屋タイプとプランの組み合わせの料金が設定されていません。');
         }
 
-        return DB::transaction(function () use ($slot, $plan, $price, $guestData): Reservation {
+        $reservation = DB::transaction(function () use ($slot, $plan, $price, $guestData): Reservation {
             $slot->update(['status' => ReservationSlotStatus::Booked]);
 
             return Reservation::create(array_merge([
@@ -37,6 +42,14 @@ class ReservationService
                 'price'                 => $price,
             ], $guestData));
         });
+
+        Mail::send(new ReservationConfirmedMail($reservation));
+
+        foreach (Admin::all() as $admin) {
+            Mail::send(new ReservationReceivedMail($reservation, $admin->email));
+        }
+
+        return $reservation;
     }
 
     public function cancel(Reservation $reservation): void
@@ -45,5 +58,7 @@ class ReservationService
             $reservation->update(['status' => ReservationStatus::Cancelled]);
             $reservation->reservationSlot()->update(['status' => ReservationSlotStatus::Available]);
         });
+
+        Mail::send(new ReservationCancelledMail($reservation));
     }
 }
