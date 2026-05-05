@@ -202,6 +202,7 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #175 | fix: Admin全件取得でのメール送信ループを最適化する | fix/issue-175 |
 | #177 | feat: メール送信を非同期化する（Mail::queue()） | feat/issue-177 |
 | #178 | chore: DBインデックスを追加する（reservations・inquiries・accommodation_plans・reservation_slots） | chore/issue-178 |
+| #179 | refactor: CalendarAvailability::fromCount()を追加してマジックナンバーを除去する | refactor/issue-179 |
 
 ### 進行中・残タスク
 
@@ -209,7 +210,6 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 
 | Issue | 内容 | 優先度 |
 |---|---|---|
-| #179 | refactor: CalendarAvailability Enum に fromCount() を追加してマジックナンバーを除去する | 低 |
 | #162 | refactor: FormRequest クラスの導入（バリデーションをコントローラーから分離） | 低 |
 
 #### フェーズ1：フロントエンド・UI の完成（一旦放置）
