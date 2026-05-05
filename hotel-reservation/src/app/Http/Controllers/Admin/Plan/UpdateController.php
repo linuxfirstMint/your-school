@@ -3,23 +3,16 @@
 namespace App\Http\Controllers\Admin\Plan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Plan\PlanRequest;
 use App\Models\AccommodationPlan;
 use App\Services\AccommodationPlanService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
-    public function __invoke(Request $request, AccommodationPlan $plan, AccommodationPlanService $service): RedirectResponse
+    public function __invoke(PlanRequest $request, AccommodationPlan $plan, AccommodationPlanService $service): RedirectResponse
     {
-        $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'images'      => ['nullable', 'array'],
-            'images.*'    => ['image', 'max:2048', 'mimes:jpg,jpeg,png,webp'],
-            'prices'      => ['nullable', 'array'],
-            'prices.*'    => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validated = $request->validated();
 
         $prices = array_filter(
             $validated['prices'] ?? [],
