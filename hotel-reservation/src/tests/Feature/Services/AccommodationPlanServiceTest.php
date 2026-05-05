@@ -99,8 +99,9 @@ class AccommodationPlanServiceTest extends TestCase
         $newImage = UploadedFile::fake()->image('new.jpg');
         $this->service->update($plan, $plan->name, null, [$newImage], []);
 
+        $freshImage = $plan->fresh()->planImages->first();
         $this->assertCount(1, $plan->fresh()->planImages);
-        $this->assertSame('new.jpg', $plan->fresh()->planImages->first()->name);
+        $this->assertSame(basename($freshImage->image_path), $freshImage->name);
     }
 
     public function test_編集時に画像を指定しない場合は既存画像が保持される(): void

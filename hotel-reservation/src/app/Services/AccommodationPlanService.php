@@ -61,7 +61,7 @@ class AccommodationPlanService
         foreach ($images as $image) {
             $path = $image->store('plan-images', 'public');
             $plan->planImages()->create([
-                'name'       => $image->getClientOriginalName(),
+                'name'       => basename((string) $path),
                 'image_path' => $path,
             ]);
         }
