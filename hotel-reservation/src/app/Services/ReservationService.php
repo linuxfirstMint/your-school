@@ -43,10 +43,11 @@ class ReservationService
             ], $guestData));
         });
 
-        Mail::send(new ReservationConfirmedMail($reservation));
+        Mail::queue(new ReservationConfirmedMail($reservation));
 
-        foreach (Admin::all() as $admin) {
-            Mail::send(new ReservationReceivedMail($reservation, $admin->email));
+        $adminEmails = Admin::pluck('email')->all();
+        if ($adminEmails !== []) {
+            Mail::queue(new ReservationReceivedMail($reservation, $adminEmails));
         }
 
         return $reservation;
@@ -59,6 +60,6 @@ class ReservationService
             $reservation->reservationSlot()->update(['status' => ReservationSlotStatus::Available]);
         });
 
-        Mail::send(new ReservationCancelledMail($reservation));
+        Mail::queue(new ReservationCancelledMail($reservation));
     }
 }

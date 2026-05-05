@@ -117,7 +117,7 @@ class ReservationControllerTest extends TestCase
         $this->actingAs($this->admin, 'admin')
             ->delete(route('admin.reservations.cancel', $reservation));
 
-        Mail::assertSent(ReservationCancelledMail::class, fn ($mail) => $mail->hasTo($reservation->email));
+        Mail::assertQueued(ReservationCancelledMail::class, fn ($mail) => $mail->hasTo($reservation->email));
     }
 
     public function test_キャンセル済みの予約を再キャンセルしても冪等に動作する(): void
