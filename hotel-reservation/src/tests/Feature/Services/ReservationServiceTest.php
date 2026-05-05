@@ -10,6 +10,7 @@ use App\Models\Reservation;
 use App\Models\ReservationSlot;
 use App\Services\ReservationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ReservationServiceTest extends TestCase
@@ -21,6 +22,7 @@ class ReservationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Mail::fake();
         $this->service = new ReservationService();
     }
 

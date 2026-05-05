@@ -14,16 +14,19 @@ class ReservationReceivedMail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    /**
+     * @param string[] $adminEmails
+     */
     public function __construct(
         public readonly Reservation $reservation,
-        public readonly string $adminEmail,
+        public readonly array $adminEmails,
     ) {
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            to:      [$this->adminEmail],
+            to:      $this->adminEmails,
             subject: '予約受付のお知らせ',
         );
     }

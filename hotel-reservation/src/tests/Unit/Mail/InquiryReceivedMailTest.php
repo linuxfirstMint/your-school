@@ -26,19 +26,19 @@ class InquiryReceivedMailTest extends TestCase
 
     public function test_件名がお問い合わせを受け付けましたである(): void
     {
-        $mail = new InquiryReceivedMail($this->inquiry, 'admin@example.com');
+        $mail = new InquiryReceivedMail($this->inquiry, ['admin@example.com']);
         $mail->assertHasSubject('お問い合わせを受け付けました');
     }
 
     public function test_宛先が指定した管理者メールアドレスである(): void
     {
-        $mail = new InquiryReceivedMail($this->inquiry, 'admin@example.com');
-        $mail->assertHasTo('admin@example.com');
+        $mail = new InquiryReceivedMail($this->inquiry, ['admin@example.com']);
+        $mail->assertHasTo(['admin@example.com']);
     }
 
     public function test_本文にお問い合わせ者の氏名が含まれる(): void
     {
-        $mail = new InquiryReceivedMail($this->inquiry, 'admin@example.com');
+        $mail = new InquiryReceivedMail($this->inquiry, ['admin@example.com']);
         $mail->assertSeeInHtml('田中');
         $mail->assertSeeInHtml('花子');
     }

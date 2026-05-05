@@ -45,8 +45,9 @@ class ReservationService
 
         Mail::send(new ReservationConfirmedMail($reservation));
 
-        foreach (Admin::all() as $admin) {
-            Mail::send(new ReservationReceivedMail($reservation, $admin->email));
+        $adminEmails = Admin::pluck('email')->all();
+        if ($adminEmails !== []) {
+            Mail::send(new ReservationReceivedMail($reservation, $adminEmails));
         }
 
         return $reservation;
