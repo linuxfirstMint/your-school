@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Inquiry;
 
-use App\Enums\InquiryStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Inquiry\UpdateInquiryRequest;
 use App\Models\Inquiry;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
-    public function __invoke(Request $request, Inquiry $inquiry): RedirectResponse
+    public function __invoke(UpdateInquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
-        $validated = $request->validate([
-            'status' => ['required', 'integer', 'in:' . implode(',', array_column(InquiryStatus::cases(), 'value'))],
-        ]);
+        $validated = $request->validated();
 
         $inquiry->update(['status' => $validated['status']]);
 

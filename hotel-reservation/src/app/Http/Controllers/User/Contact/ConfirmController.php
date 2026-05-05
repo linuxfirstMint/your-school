@@ -3,21 +3,14 @@
 namespace App\Http\Controllers\User\Contact;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\Contact\ContactRequest;
 use Illuminate\View\View;
 
 class ConfirmController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function __invoke(ContactRequest $request): View
     {
-        $validated = $request->validate([
-            'last_name'  => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'email'      => 'required|email|max:255',
-            'address'    => 'required|string|max:255',
-            'phone'      => 'required|string|max:20',
-            'message'    => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         return view('user.contact.confirm', compact('validated'));
     }

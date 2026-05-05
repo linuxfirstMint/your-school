@@ -3,26 +3,17 @@
 namespace App\Http\Controllers\User\Reservation;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\Reservation\ReservationRequest;
 use App\Models\AccommodationPlan;
 use App\Models\ReservationSlot;
 use App\Services\ReservationService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    public function __invoke(Request $request, ReservationService $service): RedirectResponse
+    public function __invoke(ReservationRequest $request, ReservationService $service): RedirectResponse
     {
-        $validated = $request->validate([
-            'slot_id'    => 'required|exists:reservation_slots,id',
-            'plan_id'    => 'required|exists:accommodation_plans,id',
-            'last_name'  => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'email'      => 'required|email|max:255',
-            'address'    => 'required|string|max:255',
-            'phone'      => 'required|string|max:20',
-            'message'    => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         $slot = ReservationSlot::findOrFail($validated['slot_id']);
         $plan = AccommodationPlan::findOrFail($validated['plan_id']);
