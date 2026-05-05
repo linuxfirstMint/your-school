@@ -38,11 +38,7 @@ class CalendarService
             $availSlots = $daySlots->filter(fn ($s) => $s->status === ReservationSlotStatus::Available);
             $availCount = $availSlots->count();
 
-            $availability = match (true) {
-                $availCount >= 2 => CalendarAvailability::Available,
-                $availCount === 1 => CalendarAvailability::Limited,
-                default          => CalendarAvailability::Unavailable,
-            };
+            $availability = CalendarAvailability::fromCount($availCount);
 
             $calendar[$dateKey] = [
                 'availability' => $availability,
