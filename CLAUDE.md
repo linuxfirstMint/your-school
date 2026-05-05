@@ -197,6 +197,8 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #163 | feat: 予約・お問い合わせエンドポイントにレート制限を追加 | feat/issue-163 |
 | #164 | fix: プラン画像アップロードにファイルサイズ・拡張子制限を追加 | fix/issue-164 |
 | #165 | test: CalendarService の単体テストを追加 | test/issue-165 |
+| #180 | chore: 動作検証用 Seeder の整備（Admin複数・予約・問い合わせ） | chore/issue-180 |
+| #176 | fix: プラン画像のファイル名を正規化する（hashName 使用） | fix/issue-176 |
 
 ### 進行中・残タスク
 
@@ -204,11 +206,9 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 
 | Issue | 内容 | 優先度 |
 |---|---|---|
-| #180 | chore: 動作検証用 Seeder の整備（Admin複数・予約・問い合わせ）※#175/#177/#178 の前提 | 高 |
-| #175 | fix: Admin全件取得でのメール送信ループを最適化する（要 #180） | 高 |
-| #176 | fix: プラン画像のファイル名を正規化する（hashName 使用） | 高 |
-| #177 | feat: メール送信を非同期化する（Mail::queue()）（要 #180） | 中 |
-| #178 | chore: DBインデックスを追加する（reservations・inquiries・accommodation_plans）（要 #180） | 中 |
+| #175 | fix: Admin全件取得でのメール送信ループを最適化する | 高 |
+| #177 | feat: メール送信を非同期化する（Mail::queue()） | 中 |
+| #178 | chore: DBインデックスを追加する（reservations・inquiries・accommodation_plans） | 中 |
 | #179 | refactor: CalendarAvailability Enum に fromCount() を追加してマジックナンバーを除去する | 低 |
 | #162 | refactor: FormRequest クラスの導入（バリデーションをコントローラーから分離） | 低 |
 
