@@ -15,11 +15,11 @@ class ContactService
     {
         $inquiry = Inquiry::create($data);
 
-        Mail::send(new InquiryCompletedMail($inquiry));
+        Mail::queue(new InquiryCompletedMail($inquiry));
 
         $adminEmails = Admin::pluck('email')->all();
         if ($adminEmails !== []) {
-            Mail::send(new InquiryReceivedMail($inquiry, $adminEmails));
+            Mail::queue(new InquiryReceivedMail($inquiry, $adminEmails));
         }
 
         return $inquiry;
