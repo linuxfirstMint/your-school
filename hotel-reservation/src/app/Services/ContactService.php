@@ -17,8 +17,9 @@ class ContactService
 
         Mail::send(new InquiryCompletedMail($inquiry));
 
-        foreach (Admin::all() as $admin) {
-            Mail::send(new InquiryReceivedMail($inquiry, $admin->email));
+        $adminEmails = Admin::pluck('email')->all();
+        if ($adminEmails !== []) {
+            Mail::send(new InquiryReceivedMail($inquiry, $adminEmails));
         }
 
         return $inquiry;

@@ -14,16 +14,19 @@ class InquiryReceivedMail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    /**
+     * @param string[] $adminEmails
+     */
     public function __construct(
         public readonly Inquiry $inquiry,
-        public readonly string $adminEmail,
+        public readonly array $adminEmails,
     ) {
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            to:      [$this->adminEmail],
+            to:      $this->adminEmails,
             subject: 'お問い合わせを受け付けました',
         );
     }
