@@ -77,7 +77,7 @@ class ContactControllerTest extends TestCase
 
         $this->post(route('user.contact.store'), $this->postData());
 
-        Mail::assertSent(InquiryReceivedMail::class, fn ($mail) => $mail->hasTo('admin@example.com'));
+        Mail::assertQueued(InquiryReceivedMail::class, fn ($mail) => $mail->hasTo('admin@example.com'));
     }
 
     public function test_送信後に宿泊者へお問い合わせ完了メールが送信される(): void
@@ -86,7 +86,7 @@ class ContactControllerTest extends TestCase
 
         $this->post(route('user.contact.store'), $this->postData());
 
-        Mail::assertSent(InquiryCompletedMail::class, fn ($mail) => $mail->hasTo('hanako@example.com'));
+        Mail::assertQueued(InquiryCompletedMail::class, fn ($mail) => $mail->hasTo('hanako@example.com'));
     }
 
     // ----------------------------------------------------------------

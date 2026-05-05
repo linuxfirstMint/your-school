@@ -113,7 +113,7 @@ class ReservationFlowControllerTest extends TestCase
 
         $this->post(route('user.reservations.store'), $this->postData($slot->id, $plan->id));
 
-        Mail::assertSent(ReservationConfirmedMail::class, fn ($mail) => $mail->hasTo('hanako@example.com'));
+        Mail::assertQueued(ReservationConfirmedMail::class, fn ($mail) => $mail->hasTo('hanako@example.com'));
     }
 
     public function test_予約完了後に管理者へ予約受付メールが送信される(): void
@@ -129,7 +129,7 @@ class ReservationFlowControllerTest extends TestCase
 
         $this->post(route('user.reservations.store'), $this->postData($slot->id, $plan->id));
 
-        Mail::assertSent(ReservationReceivedMail::class, fn ($mail) => $mail->hasTo('admin@example.com'));
+        Mail::assertQueued(ReservationReceivedMail::class, fn ($mail) => $mail->hasTo('admin@example.com'));
     }
 
     // ----------------------------------------------------------------
