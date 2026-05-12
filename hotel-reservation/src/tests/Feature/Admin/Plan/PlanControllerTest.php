@@ -135,12 +135,12 @@ class PlanControllerTest extends TestCase
         $this->assertDatabaseCount('accommodation_plans', 0);
     }
 
-    public function test_2MBを超える画像はアップロードできない(): void
+    public function test_15MBを超える画像はアップロードできない(): void
     {
         $this->actingAs($this->admin, 'admin')
             ->post(route('admin.plans.store'), [
                 'name'   => 'テストプラン',
-                'images' => [UploadedFile::fake()->image('large.jpg')->size(2049)],
+                'images' => [UploadedFile::fake()->image('large.jpg')->size(15361)],
             ])
             ->assertSessionHasErrors('images.0');
     }
