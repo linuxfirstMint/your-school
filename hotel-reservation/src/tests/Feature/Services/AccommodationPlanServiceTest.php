@@ -85,13 +85,10 @@ class AccommodationPlanServiceTest extends TestCase
         ]);
     }
 
-    public function test_編集時に新しい画像を指定すると既存画像が置き換えられる(): void
+    public function test_編集時に新しい画像を指定すると既存画像に追加される(): void
     {
         $plan = AccommodationPlan::factory()->create();
-        $oldImage = UploadedFile::fake()->image('old.jpg');
-        $this->service->store($plan->name, null, [$oldImage], []);
-        // 既存画像を直接付与
-        $plan->planImages()->create([
+        $existing = $plan->planImages()->create([
             'name'       => 'old.jpg',
             'image_path' => 'plan-images/old.jpg',
         ]);
@@ -99,9 +96,28 @@ class AccommodationPlanServiceTest extends TestCase
         $newImage = UploadedFile::fake()->image('new.jpg');
         $this->service->update($plan, $plan->name, null, [$newImage], []);
 
-        $freshImage = $plan->fresh()->planImages->first();
+        $fresh = $plan->fresh()->planImages;
+        $this->assertCount(2, $fresh);
+        $this->assertTrue($fresh->contains('id', $existing->id));
+    }
+
+    public function test_編集時にdelete_image_idsを指定すると対象画像が削除される(): void
+    {
+        Storage::fake('public');
+        $plan   = AccommodationPlan::factory()->create();
+        $target = $plan->planImages()->create([
+            'name'       => 'delete.jpg',
+            'image_path' => 'plan-images/delete.jpg',
+        ]);
+        $keep = $plan->planImages()->create([
+            'name'       => 'keep.jpg',
+            'image_path' => 'plan-images/keep.jpg',
+        ]);
+
+        $this->service->update($plan, $plan->name, null, [], [], [$target->id]);
+
         $this->assertCount(1, $plan->fresh()->planImages);
-        $this->assertSame(basename($freshImage->image_path), $freshImage->name);
+        $this->assertTrue($plan->fresh()->planImages->contains('id', $keep->id));
     }
 
     public function test_編集時に画像を指定しない場合は既存画像が保持される(): void

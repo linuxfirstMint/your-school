@@ -202,6 +202,44 @@ class PlanControllerTest extends TestCase
         ]);
     }
 
+    public function test_更新時に既存画像を指定して個別削除できる(): void
+    {
+        $plan = AccommodationPlan::factory()->create();
+        $keep  = $plan->planImages()->create(['name' => 'keep.jpg',   'image_path' => 'plan-images/keep.jpg']);
+        $target = $plan->planImages()->create(['name' => 'delete.jpg', 'image_path' => 'plan-images/delete.jpg']);
+        Storage::disk('public')->put('plan-images/keep.jpg', 'dummy');
+        Storage::disk('public')->put('plan-images/delete.jpg', 'dummy');
+
+        $this->actingAs($this->admin, 'admin')
+            ->put(route('admin.plans.update', $plan), [
+                'name'             => $plan->name,
+                'delete_image_ids' => [$target->id],
+            ])
+            ->assertRedirect(route('admin.plans.index'));
+
+        $this->assertDatabaseHas('plan_images', ['id' => $keep->id]);
+        $this->assertDatabaseMissing('plan_images', ['id' => $target->id]);
+        $this->assertTrue(Storage::disk('public')->exists('plan-images/keep.jpg'));
+        $this->assertFalse(Storage::disk('public')->exists('plan-images/delete.jpg'));
+    }
+
+    public function test_更新時に既存画像を残しつつ新規画像を追加できる(): void
+    {
+        $plan     = AccommodationPlan::factory()->create();
+        $existing = $plan->planImages()->create(['name' => 'existing.jpg', 'image_path' => 'plan-images/existing.jpg']);
+
+        $this->actingAs($this->admin, 'admin')
+            ->put(route('admin.plans.update', $plan), [
+                'name'   => $plan->name,
+                'images' => [UploadedFile::fake()->image('new.jpg')],
+            ])
+            ->assertRedirect(route('admin.plans.index'));
+
+        $plan->refresh();
+        $this->assertDatabaseHas('plan_images', ['id' => $existing->id]);
+        $this->assertCount(2, $plan->planImages);
+    }
+
     // ----------------------------------------------------------------
     // DestroyController
     // ----------------------------------------------------------------

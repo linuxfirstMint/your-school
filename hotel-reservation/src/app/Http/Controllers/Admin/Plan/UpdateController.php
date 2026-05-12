@@ -25,6 +25,7 @@ class UpdateController extends Controller
             $validated['description'] ?? null,
             $validated['images'] ?? [],
             $prices,
+            array_map('intval', $validated['delete_image_ids'] ?? []),
         );
 
         return redirect()->route('admin.plans.index');
