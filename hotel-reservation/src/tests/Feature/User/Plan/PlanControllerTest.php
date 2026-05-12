@@ -58,6 +58,28 @@ class PlanControllerTest extends TestCase
             ->assertSee('12,000');
     }
 
+    public function test_1ページに12件までしか表示されない(): void
+    {
+        AccommodationPlan::factory()->count(13)->create();
+
+        $this->get(route('user.plans.index'))
+            ->assertOk()
+            ->assertViewHas('plans', fn ($plans) => $plans->count() === 12);
+    }
+
+    public function test_2ページ目には残りのプランが表示される(): void
+    {
+        AccommodationPlan::factory()->count(13)->sequence(
+            fn ($s) => ['name' => "プラン{$s->index}"]
+        )->create();
+
+        $last = AccommodationPlan::latest('id')->first();
+
+        $this->get(route('user.plans.index') . '?page=2')
+            ->assertOk()
+            ->assertSee($last->name);
+    }
+
     public function test_削除済みのプランは一覧に表示されない(): void
     {
         $plan = AccommodationPlan::factory()->create(['name' => '削除済みプラン']);
