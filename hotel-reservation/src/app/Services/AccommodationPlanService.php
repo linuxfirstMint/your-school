@@ -28,21 +28,26 @@ class AccommodationPlanService
     /**
      * @param UploadedFile[] $images
      * @param array<int, int> $prices
+     * @param int[] $deleteImageIds
      */
     public function update(
         AccommodationPlan $plan,
         string $name,
         ?string $description,
         array $images,
-        array $prices
+        array $prices,
+        array $deleteImageIds = []
     ): void {
         $plan->update([
             'name'        => $name,
             'description' => $description,
         ]);
 
+        if (!empty($deleteImageIds)) {
+            $this->deleteImagesByIds($plan, $deleteImageIds);
+        }
+
         if (!empty($images)) {
-            $this->deleteImages($plan);
             $this->saveImages($plan, $images);
         }
 
@@ -73,6 +78,16 @@ class AccommodationPlanService
             Storage::disk('public')->delete($planImage->image_path);
         }
         $plan->planImages()->delete();
+    }
+
+    /** @param int[] $ids */
+    private function deleteImagesByIds(AccommodationPlan $plan, array $ids): void
+    {
+        $images = $plan->planImages()->whereIn('id', $ids)->get();
+        foreach ($images as $image) {
+            Storage::disk('public')->delete($image->image_path);
+        }
+        $plan->planImages()->whereIn('id', $ids)->delete();
     }
 
     /** @param array<int, int> $prices */
