@@ -207,7 +207,7 @@ class PlanControllerTest extends TestCase
         $plan = AccommodationPlan::factory()->create();
         $keep  = $plan->planImages()->create(['name' => 'keep.jpg',   'image_path' => 'plan-images/keep.jpg']);
         $target = $plan->planImages()->create(['name' => 'delete.jpg', 'image_path' => 'plan-images/delete.jpg']);
-        Storage::disk('public')->put('plan-images/keep.jpg',   'dummy');
+        Storage::disk('public')->put('plan-images/keep.jpg', 'dummy');
         Storage::disk('public')->put('plan-images/delete.jpg', 'dummy');
 
         $this->actingAs($this->admin, 'admin')
@@ -217,7 +217,7 @@ class PlanControllerTest extends TestCase
             ])
             ->assertRedirect(route('admin.plans.index'));
 
-        $this->assertDatabaseHas('plan_images',    ['id' => $keep->id]);
+        $this->assertDatabaseHas('plan_images', ['id' => $keep->id]);
         $this->assertDatabaseMissing('plan_images', ['id' => $target->id]);
         $this->assertTrue(Storage::disk('public')->exists('plan-images/keep.jpg'));
         $this->assertFalse(Storage::disk('public')->exists('plan-images/delete.jpg'));
