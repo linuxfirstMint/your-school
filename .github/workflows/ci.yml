@@ -109,7 +109,7 @@ jobs:
             cd /var/www/hotel-reservation
             git pull origin dev/hotel-reservation
             cd hotel-reservation/src
-            chmod -R 775 bootstrap/cache storage
+            sudo chmod -R 775 bootstrap/cache storage
             COMPOSER_PROCESS_TIMEOUT=600 composer install --optimize-autoloader
             npm install
             npm run build
