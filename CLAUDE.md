@@ -204,6 +204,7 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #178 | chore: DBインデックスを追加する（reservations・inquiries・accommodation_plans・reservation_slots） | chore/issue-178 |
 | #179 | refactor: CalendarAvailability::fromCount()を追加してマジックナンバーを除去する | refactor/issue-179 |
 | #162 | refactor: FormRequestクラスを導入してバリデーションをコントローラーから分離する | refactor/issue-162 |
+| #196 | fix: プラン画像アップロードの上限を 2MB → 15MB に緩和する | fix/issue-196 |
 
 ### 進行中・残タスク
 
