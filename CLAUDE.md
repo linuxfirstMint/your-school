@@ -205,8 +205,19 @@ User/ と Admin/ で似た処理が必要な場合は、コントローラーは
 | #179 | refactor: CalendarAvailability::fromCount()を追加してマジックナンバーを除去する | refactor/issue-179 |
 | #162 | refactor: FormRequestクラスを導入してバリデーションをコントローラーから分離する | refactor/issue-162 |
 | #196 | fix: プラン画像アップロードの上限を 2MB → 15MB に緩和する | fix/issue-196 |
+| #199 | feat: AWS EC2 本番サーバー構築 + GitHub Actions CI/CD パイプライン統合 | ci/issue-199 |
 
 ### 進行中・残タスク
+
+#### フェーズ2：本番運用・品質向上
+
+| Issue | 内容 | 優先度 |
+|---|---|---|
+| #198 | feat: プラン編集画面の画像管理改善（既存画像プレビュー・個別削除・追加アップロード） | 高 |
+| #200 | fix: 管理者画面ページネーション重複・英語表示修正 | 中 |
+| #201 | feat: 管理者画面ソート機能追加 | 中 |
+| #202 | feat: 宿泊者プラン一覧ページネーション実装 | 中 |
+| #108 | chore: CI actions/checkout v5 更新（Node.js 24 対応） | 低 |
 
 #### フェーズ1：フロントエンド・UI の完成（一旦放置）
 
